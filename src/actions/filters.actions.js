@@ -1,3 +1,5 @@
+import { filtersConstants } from "../_constants";
+
 export const filtersActions = {
     update,
     clear,
@@ -13,7 +15,7 @@ function update(filterName, filterOperator, value, filters) {
             filters[filterName] !== undefined
         ) {
             dispatch({
-                type: 'REMOVE_FILTER',
+                type: filtersConstants.REMOVE_FILTER,
                 filters,
                 filterName,
                 filterOperator,
@@ -21,7 +23,7 @@ function update(filterName, filterOperator, value, filters) {
             return;
         } else if (filters[filterName]) {
             dispatch({
-                type: 'APPEND_FILTER_OPERATOR',
+                type: filtersConstants.APPEND_FILTER_OPERATOR,
                 filters,
                 filterName,
                 filterOperator,
@@ -35,7 +37,7 @@ function update(filterName, filterOperator, value, filters) {
             (Array.isArray(value) && value.length !== 0)
         ) {
             dispatch({
-                type: 'APPEND_FILTER',
+                type: filtersConstants.APPEND_FILTER_OPERATOR,
                 filters,
                 filterName,
                 filterOperator,
@@ -49,6 +51,6 @@ function update(filterName, filterOperator, value, filters) {
 
 function clear() {
     return (dispatch) => {
-        dispatch({ type: 'CLEAR_FILTERS' });
+        dispatch({ type: filtersConstants.CLEAR_FILTERS });
     };
 }

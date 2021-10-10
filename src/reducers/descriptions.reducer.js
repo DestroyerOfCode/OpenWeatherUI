@@ -1,9 +1,10 @@
 import { descriptionsConstants } from '../_constants';
 
 export function descriptions(state = [], action) {
-    switch (action.type) {
+    const {type, descriptions} = action;
+    switch (type) {
         case descriptionsConstants.GET_DESCRIPTIONS:
-            return action.descriptions;
+            return descriptions;
         default:
             return state;
     }

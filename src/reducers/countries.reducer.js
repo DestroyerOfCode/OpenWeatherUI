@@ -1,9 +1,10 @@
 import { countriesConstants } from '../_constants';
 
 export function countries(state = [], action) {
-    switch (action.type) {
+    const {type, countries} = action;
+    switch (type) {
         case countriesConstants.GET_COUNTRIES:
-            return action.countries;
+            return countries;
         default:
             return state;
     }
