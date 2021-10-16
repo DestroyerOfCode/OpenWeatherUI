@@ -7,46 +7,55 @@ export const filtersActions = {
 
 function update(filterName, filterOperator, value, filters) {
     return (dispatch) => {
-        if (
-            (((filterOperator === '$gte' || filterOperator === '$lte') &&
-                isNaN(value)) ||
-                '' === value ||
-                (Array.isArray(value) && value.length === 0)) &&
-            filters[filterName] !== undefined
-        ) {
-            dispatch({
+        if ( filters[filterName] !== undefined && (
+            isNumericEmpty(filterOperator, value) ||
+            '' === value ||
+            isArrayEmpty(value)
+        )) {
+            return dispatch({
                 type: filtersConstants.REMOVE_FILTER,
                 filters,
                 filterName,
                 filterOperator,
             });
-            return;
-        } else if (filters[filterName]) {
-            dispatch({
-                type: filtersConstants.APPEND_FILTER_OPERATOR,
-                filters,
-                filterName,
-                filterOperator,
-                value,
-            });
-            return;
-        } else if (
-            ((filterOperator === '$gte' || filterOperator === '$lte') &&
-                !isNaN(value)) ||
+        } else if (filters[filterName] !== undefined && (
+            isNumericNotEmpty(filterOperator, value) ||
             '' !== value ||
-            (Array.isArray(value) && value.length !== 0)
-        ) {
-            dispatch({
+            isArrayNotEmpty(value)
+        )) {
+            return dispatch({
                 type: filtersConstants.APPEND_FILTER_OPERATOR,
                 filters,
                 filterName,
                 filterOperator,
                 value,
             });
-            return;
+        } else if (filters[filterName] === undefined) {
+            return dispatch({
+                type: filtersConstants.APPEND_FILTER,
+                filters,
+                filterName,
+                filterOperator,
+                value,
+            });
         }
-        // dispatch({type: "UPDATE_FILTERS", filters});
     };
+}
+
+function isNumericEmpty(filterOperator, value) {
+    return (filterOperator === '$gte' || filterOperator === '$lte') && isNaN(value);
+}
+
+function isNumericNotEmpty(filterOperator, value) {
+    return (filterOperator === '$gte' || filterOperator === '$lte') && !isNaN(value);
+}
+
+function isArrayEmpty(value) {
+    return Array.isArray(value) && value.length === 0;
+}
+
+function isArrayNotEmpty(value) {
+    return Array.isArray(value) && value.length !== 0;
 }
 
 function clear() {
