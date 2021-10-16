@@ -174,5 +174,12 @@
 		"ten": "10 rows",
 		"hundred": "100 rows",
 		"thousand": "1 000 rows"
+	},
+	"auth": {
+		"signUp": "Sign Up",
+		"signIn": "Sign In",
+		"logOut": "Log Out",
+		"profile": "Profile",
+		"home": "Home"
 	}
 }

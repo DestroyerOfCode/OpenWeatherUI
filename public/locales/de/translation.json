@@ -177,5 +177,12 @@
         "ten": "10 Zeilen",
         "hundred": "100 Zeilen",
         "thousand": "1 000 Zeilen"
+    },
+    "auth": {
+        "signUp": "Registrierung",
+        "signIn": "Anmeldung",
+        "logOut": "Ausloggen",
+        "profile": "Profil",
+        "home": "Haus"
     }
 }
