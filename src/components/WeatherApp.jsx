@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Switch, Route, useHistory } from 'react-router-dom';
 import WeatherCurrentComponent from './current/WeatherCurrent';
 import { withTranslation } from 'react-i18next';
@@ -30,7 +31,7 @@ function WeatherApp() {
 
     const handlePath = (path) => history.push(path);
     
-    const user = JSON.parse(localStorage.getItem('user'));
+    const { user: currentUser } = useSelector((state) => state.auth);
 
     const temperatureDropdown = () => (
         <TemperatureDropdownList
@@ -53,24 +54,29 @@ function WeatherApp() {
                         onClick={() => handlePath("/")}>
                         {i18n.t('auth.home')}
                     </Button>     
-                    <Button 
+                    { 
+                    currentUser == null && <Button 
                         variant="outlined"
                         size="1g"
                         onClick={() => handlePath("/register")}>
                         {i18n.t('auth.signUp')}
                     </Button>     
+                    }
                     <Button 
                         variant="outlined"
                         size="1g"
                         onClick={() => handlePath("/profile")}>
-                        {user ? i18n.t('auth.profile') : i18n.t('auth.signIn')}
+                        {currentUser ? i18n.t('auth.profile') + ` ${currentUser.userName}` 
+                        : i18n.t('auth.signIn')}
                     </Button>     
-                    <Button 
+                    { 
+                    currentUser && <Button 
                         variant="outlined"
                         size="1g"
                         onClick={logOut}>
                         {i18n.t('auth.logOut')}
                     </Button>
+                    }
                 </div>
                 <div className="d-flex ml-auto p-2 col-example">
                     <Button
