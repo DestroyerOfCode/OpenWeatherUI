@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Multiselect } from 'multiselect-react-dropdown';
 import i18n from 'i18next';
@@ -14,6 +14,7 @@ import {
 import { nanoid } from 'nanoid';
 import { convertTemperature } from '../../businessLogic/WeatherBusinessLogic';
 import Button from '@material-ui/core/Button';
+
 import CollapsibleFormControl from '../common/CollapsibleFormControl';
 
 const useStyles = makeStyles((theme) => ({
@@ -30,9 +31,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function FiltersComponent(props) {
+    const {collapse} = props;
     const filters = useSelector((state) => state.filters);
     const countries = useSelector((state) => state.countries);
     const descriptions = useSelector((state) => state.descriptions);
+
     const dispatch = useDispatch();
     const classes = useStyles();
 
@@ -51,8 +54,7 @@ function FiltersComponent(props) {
     return (
         <>
             <form className={classes.root} noValidate autoComplete="off">
-                <CollapsibleFormControl>
-                    <FormControl fullWidth={false} variant="filled" size="small">
+                <FormControl fullWidth={false} variant="filled" size="small">
                         <InputLabel type={String} htmlFor="component-simple">
                             {i18n.t('current.filters.cityName')}
                         </InputLabel>
@@ -63,315 +65,6 @@ function FiltersComponent(props) {
                                 onBlurEvent(event.target.value, 'name', '$eq')
                             }
                         />
-                    </FormControl>
-                </CollapsibleFormControl>
-                <FormControl>
-                    <InputLabel
-                        variant="standard"
-                        type={String}
-                        htmlFor="component-simple"
-                    >
-                        {i18n.t('current.filters.latitude')}{' '}
-                        {i18n.t('common.from')}
-                    </InputLabel>
-                    <Input
-                        fullWidth={false}
-                        placeholder={i18n.t('common.from')}
-                        id={nanoid()}
-                        defaultValue={filters['coord.lat']?.$gte}
-                        onBlur={(event) =>
-                            onBlurEvent(
-                                parseFloat(event.target.value),
-                                'coord.lat',
-                                '$gte'
-                            )
-                        }
-                    />
-                </FormControl>
-                <FormControl>
-                    <InputLabel type={String} htmlFor="component-simple">
-                        {i18n.t('current.filters.latitude')}{' '}
-                        {i18n.t('common.to')}
-                    </InputLabel>
-                    <Input
-                        placeholder={i18n.t('common.to')}
-                        id={nanoid()}
-                        defaultValue={filters['coord.lat']?.$lte}
-                        onBlur={(event) =>
-                            onBlurEvent(
-                                parseFloat(event.target.value),
-                                'coord.lat',
-                                '$lte'
-                            )
-                        }
-                    />
-                </FormControl>
-                <FormControl>
-                    <InputLabel type={String} htmlFor="component-simple">
-                        {i18n.t('current.filters.longitude')}{' '}
-                        {i18n.t('common.from')}
-                    </InputLabel>
-                    <Input
-                        placeholder={i18n.t('common.from')}
-                        id={nanoid()}
-                        defaultValue={filters['coord.lon']?.$gte}
-                        onBlur={(event) =>
-                            onBlurEvent(
-                                parseFloat(event.target.value),
-                                'coord.lon',
-                                '$gte'
-                            )
-                        }
-                    />
-                </FormControl>
-                <FormControl fullWidth={false} variant="filled" size="small">
-                    <InputLabel type={String} htmlFor="component-simple">
-                        {i18n.t('current.filters.longitude')}{' '}
-                        {i18n.t('common.to')}
-                    </InputLabel>
-                    <Input
-                        placeholder={i18n.t('common.to')}
-                        id={nanoid()}
-                        defaultValue={filters['coord.lon']?.$lte}
-                        onBlur={(event) =>
-                            onBlurEvent(
-                                parseFloat(event.target.value),
-                                'coord.lon',
-                                '$lte'
-                            )
-                        }
-                    />
-                </FormControl>
-                <FormControl fullWidth={false} variant="filled" size="small">
-                    <InputLabel type={Number} htmlFor="component-simple">
-                        {i18n.t('current.filters.humidity')}{' '}
-                        {i18n.t('common.from')}
-                    </InputLabel>
-                    <Input
-                        type={Number}
-                        placeholder={i18n.t('common.from')}
-                        id={nanoid()}
-                        defaultValue={filters['weatherMain.humidity']?.$gte}
-                        onBlur={(event) =>
-                            onBlurEvent(
-                                parseFloat(event.target.value),
-                                'weatherMain.humidity',
-                                '$gte'
-                            )
-                        }
-                    />
-                </FormControl>
-                <FormControl fullWidth={false} variant="filled" size="small">
-                    <InputLabel type={Number} htmlFor="component-simple">
-                        {i18n.t('current.filters.humidity')}{' '}
-                        {i18n.t('common.to')}
-                    </InputLabel>
-                    <Input
-                        type={Number}
-                        placeholder={i18n.t('common.to')}
-                        id={nanoid()}
-                        defaultValue={filters['weatherMain.humidity']?.$lte}
-                        onBlur={(event) => {
-                            if (event && event.target.value !== '')
-                                return onBlurEvent(
-                                    parseFloat(event.target.value),
-                                    'weatherMain.humidity',
-                                    '$lte'
-                                );
-                            else
-                                return onBlurEvent(
-                                    '',
-                                    'weatherMain.humidity',
-                                    '$lte'
-                                );
-                        }}
-                    />
-                </FormControl>
-                <FormControl fullWidth={false} variant="filled" size="small">
-                    <InputLabel type={Number} htmlFor="component-simple">
-                        {i18n.t('current.filters.feelTemperature')}{' '}
-                        {i18n.t('common.from')}
-                    </InputLabel>
-                    <Input
-                        placeholder={i18n.t('common.from')}
-                        id={nanoid()}
-                        defaultValue={convertTemperature(
-                            props.temperatureUnits,
-                            filters['weatherMain.feels_like']?.$gte
-                        )}
-                        onBlur={(event) => {
-                            if (event && event.target.value !== '')
-                                return onBlurEvent(
-                                    calculateKelvins(
-                                        props.temperatureUnits,
-                                        event.target.value
-                                    ),
-                                    'weatherMain.feels_like',
-                                    '$gte'
-                                );
-                            else
-                                return onBlurEvent(
-                                    '',
-                                    'weatherMain.feels_like',
-                                    '$gte'
-                                );
-                        }}
-                    />
-                </FormControl>
-                <FormControl fullWidth={false} variant="filled" size="small">
-                    <InputLabel type={Number} htmlFor="component-simple">
-                        {i18n.t('current.filters.feelTemperature')}{' '}
-                        {i18n.t('common.to')}
-                    </InputLabel>
-                    <Input
-                        placeholder={i18n.t('common.to')}
-                        id={nanoid()}
-                        defaultValue={convertTemperature(
-                            props.temperatureUnits,
-                            filters['weatherMain.feels_like']?.$lte
-                        )}
-                        onBlur={(event) => {
-                            if (event && event.target.value !== '')
-                                return onBlurEvent(
-                                    calculateKelvins(
-                                        props.temperatureUnits,
-                                        event.target.value
-                                    ),
-                                    'weatherMain.feels_like',
-                                    '$lte'
-                                );
-                            else
-                                return onBlurEvent(
-                                    '',
-                                    'weatherMain.feels_like',
-                                    '$lte'
-                                );
-                        }}
-                    />
-                </FormControl>
-                <FormControl fullWidth={false} variant="filled" size="small">
-                    <InputLabel type={String} htmlFor="component-simple">
-                        {i18n.t('current.filters.temperatureMax')}{' '}
-                        {i18n.t('common.from')}
-                    </InputLabel>
-                    <Input
-                        placeholder={i18n.t('common.from')}
-                        id="component-simple"
-                        defaultValue={convertTemperature(
-                            props.temperatureUnits,
-                            filters['weatherMain.temp_max']?.$gte
-                        )}
-                        onBlur={(event) => {
-                            if (event.target.value !== '')
-                                return onBlurEvent(
-                                    calculateKelvins(
-                                        props.temperatureUnits,
-                                        event.target.value
-                                    ),
-                                    'weatherMain.temp_max',
-                                    '$gte'
-                                );
-                            else
-                                return onBlurEvent(
-                                    '',
-                                    'weatherMain.temp_max',
-                                    '$gte'
-                                );
-                        }}
-                    />
-                </FormControl>
-                <FormControl fullWidth={false} variant="filled" size="small">
-                    <InputLabel type={Number} htmlFor="component-simple">
-                        {i18n.t('current.filters.temperatureMax')}{' '}
-                        {i18n.t('common.to')}
-                    </InputLabel>
-                    <Input
-                        placeholder={i18n.t('common.to')}
-                        id={nanoid()}
-                        defaultValue={convertTemperature(
-                            props.temperatureUnits,
-                            filters['weatherMain.temp_max']?.$lte
-                        )}
-                        onBlur={(event) => {
-                            if (event.target.value !== '')
-                                return onBlurEvent(
-                                    calculateKelvins(
-                                        props.temperatureUnits,
-                                        event.target.value
-                                    ),
-                                    'weatherMain.temp_max',
-                                    '$lte'
-                                );
-                            else
-                                return onBlurEvent(
-                                    '',
-                                    'weatherMain.temp_max',
-                                    '$lte'
-                                );
-                        }}
-                    />
-                </FormControl>
-                <FormControl fullWidth={false} variant="filled" size="small">
-                    <InputLabel type={Number} htmlFor="component-simple">
-                        {i18n.t('current.filters.temperatureMin')}{' '}
-                        {i18n.t('common.from')}
-                    </InputLabel>
-                    <Input
-                        placeholder={i18n.t('common.from')}
-                        id={nanoid()}
-                        defaultValue={convertTemperature(
-                            props.temperatureUnits,
-                            filters['weatherMain.temp_min']?.$gte
-                        )}
-                        onBlur={(event) => {
-                            if (event.target.value !== '')
-                                return onBlurEvent(
-                                    calculateKelvins(
-                                        props.temperatureUnits,
-                                        event.target.value
-                                    ),
-                                    'weatherMain.temp_min',
-                                    '$gte'
-                                );
-                            else
-                                return onBlurEvent(
-                                    '',
-                                    'weatherMain.temp_min',
-                                    '$gte'
-                                );
-                        }}
-                    />
-                </FormControl>
-                <FormControl fullWidth={false} variant="filled" size="small">
-                    <InputLabel type={Number} htmlFor="component-simple">
-                        {i18n.t('current.filters.temperatureMin')}{' '}
-                        {i18n.t('common.to')}
-                    </InputLabel>
-                    <Input
-                        placeholder={i18n.t('common.to')}
-                        id={nanoid()}
-                        defaultValue={convertTemperature(
-                            props.temperatureUnits,
-                            filters['weatherMain.temp_min']?.$lte
-                        )}
-                        onBlur={(event) => {
-                            if (event.target.value !== '')
-                                return onBlurEvent(
-                                    calculateKelvins(
-                                        props.temperatureUnits,
-                                        event.target.value
-                                    ),
-                                    'weatherMain.temp_min',
-                                    '$lte'
-                                );
-                            else
-                                return onBlurEvent(
-                                    '',
-                                    'weatherMain.temp_min',
-                                    '$lte'
-                                );
-                        }}
-                    />
                 </FormControl>
                 <FormControl fullWidth={false} variant="filled" size="small">
                     <InputLabel type={Number} htmlFor="component-simple">
@@ -427,6 +120,343 @@ function FiltersComponent(props) {
                         }}
                     />
                 </FormControl>
+                <FormControl fullWidth={false} variant="filled" size="small">
+                    <InputLabel type={Number} htmlFor="component-simple">
+                        {i18n.t('current.filters.humidity')}{' '}
+                        {i18n.t('common.from')}
+                    </InputLabel>
+                    <Input
+                        type={Number}
+                        placeholder={i18n.t('common.from')}
+                        id={nanoid()}
+                        defaultValue={filters['weatherMain.humidity']?.$gte}
+                        onBlur={(event) =>
+                            onBlurEvent(
+                                parseFloat(event.target.value),
+                                'weatherMain.humidity',
+                                '$gte'
+                            )
+                        }
+                    />
+                </FormControl>
+                <CollapsibleFormControl collapse={collapse}>
+                    <FormControl fullWidth={false} variant="filled" size="small">
+                    <InputLabel type={Number} htmlFor="component-simple">
+                        {i18n.t('current.filters.humidity')}{' '}
+                        {i18n.t('common.to')}
+                    </InputLabel>
+                    <Input
+                        type={Number}
+                        placeholder={i18n.t('common.to')}
+                        id={nanoid()}
+                        defaultValue={filters['weatherMain.humidity']?.$lte}
+                        onBlur={(event) => {
+                            if (event && event.target.value !== '')
+                                return onBlurEvent(
+                                    parseFloat(event.target.value),
+                                    'weatherMain.humidity',
+                                    '$lte'
+                                );
+                            else
+                                return onBlurEvent(
+                                    '',
+                                    'weatherMain.humidity',
+                                    '$lte'
+                                );
+                        }}
+                    />
+                    </FormControl>
+                </CollapsibleFormControl>
+                <CollapsibleFormControl collapse={collapse}>
+                <FormControl fullWidth={false} variant="filled" size="small">
+                    <InputLabel type={Number} htmlFor="component-simple">
+                        {i18n.t('current.filters.feelTemperature')}{' '}
+                        {i18n.t('common.from')}
+                    </InputLabel>
+                    <Input
+                        placeholder={i18n.t('common.from')}
+                        id={nanoid()}
+                        defaultValue={convertTemperature(
+                            props.temperatureUnits,
+                            filters['weatherMain.feels_like']?.$gte
+                        )}
+                        onBlur={(event) => {
+                            if (event && event.target.value !== '')
+                                return onBlurEvent(
+                                    calculateKelvins(
+                                        props.temperatureUnits,
+                                        event.target.value
+                                    ),
+                                    'weatherMain.feels_like',
+                                    '$gte'
+                                );
+                            else
+                                return onBlurEvent(
+                                    '',
+                                    'weatherMain.feels_like',
+                                    '$gte'
+                                );
+                        }}
+                    />
+                    </FormControl>
+                </CollapsibleFormControl>
+                <CollapsibleFormControl collapse={collapse}>
+                    <FormControl fullWidth={false} variant="filled" size="small">
+                    <InputLabel type={Number} htmlFor="component-simple">
+                        {i18n.t('current.filters.feelTemperature')}{' '}
+                        {i18n.t('common.to')}
+                    </InputLabel>
+                    <Input
+                        placeholder={i18n.t('common.to')}
+                        id={nanoid()}
+                        defaultValue={convertTemperature(
+                            props.temperatureUnits,
+                            filters['weatherMain.feels_like']?.$lte
+                        )}
+                        onBlur={(event) => {
+                            if (event && event.target.value !== '')
+                                return onBlurEvent(
+                                    calculateKelvins(
+                                        props.temperatureUnits,
+                                        event.target.value
+                                    ),
+                                    'weatherMain.feels_like',
+                                    '$lte'
+                                );
+                            else
+                                return onBlurEvent(
+                                    '',
+                                    'weatherMain.feels_like',
+                                    '$lte'
+                                );
+                        }}
+                    />
+                    </FormControl>
+                </CollapsibleFormControl>
+
+               <CollapsibleFormControl collapse={collapse}>
+                   <FormControl fullWidth={false} variant="filled" size="small">
+                    <InputLabel type={String} htmlFor="component-simple">
+                        {i18n.t('current.filters.temperatureMax')}{' '}
+                        {i18n.t('common.from')}
+                    </InputLabel>
+                    <Input
+                        placeholder={i18n.t('common.from')}
+                        id="component-simple"
+                        defaultValue={convertTemperature(
+                            props.temperatureUnits,
+                            filters['weatherMain.temp_max']?.$gte
+                        )}
+                        onBlur={(event) => {
+                            if (event.target.value !== '')
+                                return onBlurEvent(
+                                    calculateKelvins(
+                                        props.temperatureUnits,
+                                        event.target.value
+                                    ),
+                                    'weatherMain.temp_max',
+                                    '$gte'
+                                );
+                            else
+                                return onBlurEvent(
+                                    '',
+                                    'weatherMain.temp_max',
+                                    '$gte'
+                                );
+                        }}
+                    />
+                    </FormControl>
+                </CollapsibleFormControl>
+
+                <CollapsibleFormControl collapse={collapse}>
+                    <FormControl fullWidth={false} variant="filled" size="small">
+                    <InputLabel type={Number} htmlFor="component-simple">
+                        {i18n.t('current.filters.temperatureMax')}{' '}
+                        {i18n.t('common.to')}
+                    </InputLabel>
+                    <Input
+                        placeholder={i18n.t('common.to')}
+                        id={nanoid()}
+                        defaultValue={convertTemperature(
+                            props.temperatureUnits,
+                            filters['weatherMain.temp_max']?.$lte
+                        )}
+                        onBlur={(event) => {
+                            if (event.target.value !== '')
+                                return onBlurEvent(
+                                    calculateKelvins(
+                                        props.temperatureUnits,
+                                        event.target.value
+                                    ),
+                                    'weatherMain.temp_max',
+                                    '$lte'
+                                );
+                            else
+                                return onBlurEvent(
+                                    '',
+                                    'weatherMain.temp_max',
+                                    '$lte'
+                                );
+                        }}
+                    />
+                    </FormControl>
+                </CollapsibleFormControl>
+
+                <CollapsibleFormControl collapse={collapse}>
+                    <FormControl fullWidth={false} variant="filled" size="small">
+                    <InputLabel type={Number} htmlFor="component-simple">
+                        {i18n.t('current.filters.temperatureMin')}{' '}
+                        {i18n.t('common.from')}
+                    </InputLabel>
+                    <Input
+                        placeholder={i18n.t('common.from')}
+                        id={nanoid()}
+                        defaultValue={convertTemperature(
+                            props.temperatureUnits,
+                            filters['weatherMain.temp_min']?.$gte
+                        )}
+                        onBlur={(event) => {
+                            if (event.target.value !== '')
+                                return onBlurEvent(
+                                    calculateKelvins(
+                                        props.temperatureUnits,
+                                        event.target.value
+                                    ),
+                                    'weatherMain.temp_min',
+                                    '$gte'
+                                );
+                            else
+                                return onBlurEvent(
+                                    '',
+                                    'weatherMain.temp_min',
+                                    '$gte'
+                                );
+                        }}
+                    />
+                    </FormControl>
+                </CollapsibleFormControl>
+
+                <CollapsibleFormControl collapse={collapse}>
+                    <FormControl fullWidth={false} variant="filled" size="small">
+                    <InputLabel type={Number} htmlFor="component-simple">
+                        {i18n.t('current.filters.temperatureMin')}{' '}
+                        {i18n.t('common.to')}
+                    </InputLabel>
+                    <Input
+                        placeholder={i18n.t('common.to')}
+                        id={nanoid()}
+                        defaultValue={convertTemperature(
+                            props.temperatureUnits,
+                            filters['weatherMain.temp_min']?.$lte
+                        )}
+                        onBlur={(event) => {
+                            if (event.target.value !== '')
+                                return onBlurEvent(
+                                    calculateKelvins(
+                                        props.temperatureUnits,
+                                        event.target.value
+                                    ),
+                                    'weatherMain.temp_min',
+                                    '$lte'
+                                );
+                            else
+                                return onBlurEvent(
+                                    '',
+                                    'weatherMain.temp_min',
+                                    '$lte'
+                                );
+                        }}
+                    />
+                    </FormControl>
+                </CollapsibleFormControl>
+
+                <CollapsibleFormControl collapse={collapse}>
+                    <FormControl>
+                    <InputLabel
+                        variant="standard"
+                        type={String}
+                        htmlFor="component-simple"
+                    >
+                        {i18n.t('current.filters.latitude')}{' '}
+                        {i18n.t('common.from')}
+                    </InputLabel>
+                    <Input
+                        fullWidth={false}
+                        placeholder={i18n.t('common.from')}
+                        id={nanoid()}
+                        defaultValue={filters['coord.lat']?.$gte}
+                        onBlur={(event) =>
+                            onBlurEvent(
+                                parseFloat(event.target.value),
+                                'coord.lat',
+                                '$gte'
+                            )
+                        }
+                    />
+                    </FormControl>
+                </CollapsibleFormControl>
+
+                <CollapsibleFormControl collapse={collapse}>
+                    <FormControl>
+                    <InputLabel type={String} htmlFor="component-simple">
+                        {i18n.t('current.filters.latitude')}{' '}
+                        {i18n.t('common.to')}
+                    </InputLabel>
+                    <Input
+                        placeholder={i18n.t('common.to')}
+                        id={nanoid()}
+                        defaultValue={filters['coord.lat']?.$lte}
+                        onBlur={(event) =>
+                            onBlurEvent(
+                                parseFloat(event.target.value),
+                                'coord.lat',
+                                '$lte'
+                            )
+                        }
+                    />
+                    </FormControl>
+                </CollapsibleFormControl>
+
+                <CollapsibleFormControl collapse={collapse}>
+                    <FormControl>
+                    <InputLabel type={String} htmlFor="component-simple">
+                        {i18n.t('current.filters.longitude')}{' '}
+                        {i18n.t('common.from')}
+                    </InputLabel>
+                    <Input
+                        placeholder={i18n.t('common.from')}
+                        id={nanoid()}
+                        defaultValue={filters['coord.lon']?.$gte}
+                        onBlur={(event) =>
+                            onBlurEvent(
+                                parseFloat(event.target.value),
+                                'coord.lon',
+                                '$gte'
+                            )
+                        }
+                    />
+                    </FormControl>
+                </CollapsibleFormControl>
+                <CollapsibleFormControl collapse={collapse}>
+                    <FormControl fullWidth={false} variant="filled" size="small">
+                        <InputLabel type={String} htmlFor="component-simple">
+                            {i18n.t('current.filters.longitude')}{' '}
+                            {i18n.t('common.to')}
+                        </InputLabel>
+                        <Input
+                            placeholder={i18n.t('common.to')}
+                            id={nanoid()}
+                            defaultValue={filters['coord.lon']?.$lte}
+                            onBlur={(event) =>
+                                onBlurEvent(
+                                    parseFloat(event.target.value),
+                                    'coord.lon',
+                                    '$lte'
+                                )
+                            }
+                        />
+                    </FormControl>
+                </CollapsibleFormControl>
                 <Multiselect
                     selectedValues={getSelectedDescriptions(
                         filters['weather.description']?.$in,

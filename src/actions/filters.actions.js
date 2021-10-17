@@ -7,9 +7,14 @@ export const filtersActions = {
 
 function update(filterName, filterOperator, value, filters) {
     return (dispatch) => {
+        if ((filters[filterName] === undefined && ((value === "" || isNaN(value)) && !Array.isArray(value))) ||
+            (filters[filterName] !== undefined && filters[filterName][filterOperator] === undefined &&
+            ((value === "" || isNaN(value)) && !Array.isArray(value)))) {
+                return;
+            }
         if ( filters[filterName] !== undefined && (
             isNumericEmpty(filterOperator, value) ||
-            '' === value ||
+            "" === value ||
             isArrayEmpty(value)
         )) {
             return dispatch({
@@ -19,8 +24,8 @@ function update(filterName, filterOperator, value, filters) {
                 filterOperator,
             });
         } else if (filters[filterName] !== undefined && (
-            isNumericNotEmpty(filterOperator, value) ||
-            '' !== value ||
+            isNumericNotEmpty(filterOperator, value) &&
+            "" !== value ||
             isArrayNotEmpty(value)
         )) {
             return dispatch({
@@ -47,7 +52,7 @@ function isNumericEmpty(filterOperator, value) {
 }
 
 function isNumericNotEmpty(filterOperator, value) {
-    return (filterOperator === '$gte' || filterOperator === '$lte') && !isNaN(value);
+    return(filterOperator === '$gte' || filterOperator === '$lte') && !isNaN(value);
 }
 
 function isArrayEmpty(value) {

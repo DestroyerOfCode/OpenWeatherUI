@@ -13,6 +13,9 @@ import CustomCircularLoader from '../../buildingBlocks/CustomCircularLoader';
 import EnhancedTableHead from '../common/EnhancedTableHeader';
 import EnhancedTableBody from './WeatherCurrentTableBody';
 import { weatherCurrentActions } from '../../actions';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Switch from '@mui/material/Switch';
+
 const useStyles = makeStyles((theme) => ({
     tableContainer: {
         maxHeight: 500,
@@ -41,6 +44,7 @@ function WeatherCurrent(props) {
     const [sortBy, setSortBy] = useState('name');
     const [currentPage, setCurrentPage] = useState(0);
     const [itemsPerPage, setItemsPerPage] = useState(100);
+    const [collapse, setCollapse] = useState(true);
     const [loading, setLoading] = useState(true);
     const filtersSelector = useSelector((state) => state.filters);
     const currentWeathers = useSelector((state) => state.weatherCurrent);
@@ -150,15 +154,24 @@ function WeatherCurrent(props) {
         setCurrentPage(page);
     };
 
+    const collapseAll = () => {
+        setCollapse((prev) => !prev);
+    }
+
     return loading ? (
         <CustomCircularLoader />
     ) : (
         <div className="container">
+            <FormControlLabel
+              control={<Switch checked={collapse} onChange={collapseAll} />}
+              label="Display more Filters"
+            />
             <FiltersComponent
                 key={nanoid()}
                 temperatureUnits={temperature.units}
                 temperature={temperature.abbreviation}
                 handleChangePage={handleChangePage}
+                collapse={collapse}
             />
 
             <TablePagination
