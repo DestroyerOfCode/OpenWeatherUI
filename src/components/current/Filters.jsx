@@ -13,9 +13,9 @@ import {
 } from '../../actions';
 import { nanoid } from 'nanoid';
 import { convertTemperature } from '../../businessLogic/WeatherBusinessLogic';
-import Button from '@material-ui/core/Button';
 
 import CollapsibleFormControl from '../common/CollapsibleFormControl';
+
 const useStyles = makeStyles((theme) => ({
     root: {
         '& *': {
@@ -509,14 +509,6 @@ function FiltersComponent(props) {
                 </CollapsibleFormControl>
             </form>
 
-            <Button
-                variant="contained"
-                onClick={() => dispatch(filtersActions.clear())}
-                size="medium"
-                color="primary"
-            >
-                {i18n.t('common.clearFilters')}
-            </Button>
         </>
     );
 }

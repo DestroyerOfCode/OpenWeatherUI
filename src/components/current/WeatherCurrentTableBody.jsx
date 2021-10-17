@@ -12,7 +12,7 @@ import { nanoid } from 'nanoid';
 import { withStyles } from '@material-ui/core/styles';
 
 function EnhancedTableBody(props) {
-    const { currentWeathers, temperature } = props;
+    const { currentWeathers, temperature, isCollapse } = props;
     return currentWeathers.content?.length ? (
         <TableBody>
             {currentWeathers.content.map((weather) => {
@@ -31,36 +31,52 @@ function EnhancedTableBody(props) {
                                 {weather.name}
                             </Link>
                         </StyledTableCell>
-                        <StyledTableCell>
+                        { isCollapse && <StyledTableCell>
                             {displayCoords(weather.coord.lat)}
-                        </StyledTableCell>
-                        <StyledTableCell>
+                        </StyledTableCell>}
+                        { isCollapse && <StyledTableCell>
                             {displayCoords(weather.coord.lon)}
-                        </StyledTableCell>
-                        <StyledTableCell>
+                        </StyledTableCell>}
+                        { isCollapse && <StyledTableCell>
                             {i18n.t(
                                 `common.countryName.${weather.sys.countryName}`
                             )}
-                        </StyledTableCell>
+                        </StyledTableCell>}
                         <StyledTableCell>
                             {weather.weatherMain.humidity}
                         </StyledTableCell>
-                        <StyledTableCell>{`${convertTemperature(
-                            temperature.units,
-                            weather.weatherMain.feels_like
-                        )}${temperature.abbreviation}`}</StyledTableCell>
-                        <StyledTableCell>{`${convertTemperature(
-                            temperature.units,
-                            weather.weatherMain.temp
-                        )}${temperature.abbreviation}`}</StyledTableCell>
-                        <StyledTableCell>{`${convertTemperature(
-                            temperature.units,
-                            weather.weatherMain.temp_max
-                        )}${temperature.abbreviation}`}</StyledTableCell>
-                        <StyledTableCell>{`${convertTemperature(
-                            temperature.units,
-                            weather.weatherMain.temp_min
-                        )}${temperature.abbreviation}`}</StyledTableCell>
+                        {isCollapse && <StyledTableCell>
+                            {`${convertTemperature(
+                                temperature.units,
+                                weather.weatherMain.feels_like
+                                )}${temperature.abbreviation}`
+                            }
+                        </StyledTableCell>
+                        }
+                        <StyledTableCell>
+                            {`${convertTemperature(
+                                temperature.units,
+                                weather.weatherMain.temp
+                                )}${temperature.abbreviation}`
+                            }
+                        </StyledTableCell>
+                        
+                        {isCollapse && <StyledTableCell>
+                            {`${convertTemperature(
+                                temperature.units,
+                                weather.weatherMain.temp_max
+                                )}${temperature.abbreviation}`
+                            }
+                        </StyledTableCell>
+                        }
+                        {isCollapse && <StyledTableCell>
+                            {`${convertTemperature(
+                                temperature.units,
+                                weather.weatherMain.temp_min
+                                )}${temperature.abbreviation}`
+                            }
+                        </StyledTableCell>
+                        }
                         <StyledTableCell>
                             {getWeatherDescription(weather)}
                         </StyledTableCell>

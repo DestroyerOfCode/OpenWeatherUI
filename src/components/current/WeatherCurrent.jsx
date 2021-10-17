@@ -12,9 +12,10 @@ import TemperatureCtx from '../../buildingBlocks/Temperature';
 import CustomCircularLoader from '../../buildingBlocks/CustomCircularLoader';
 import EnhancedTableHead from '../common/EnhancedTableHeader';
 import EnhancedTableBody from './WeatherCurrentTableBody';
-import { weatherCurrentActions } from '../../actions';
+import { weatherCurrentActions, filtersActions } from '../../actions';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
+import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles((theme) => ({
     tableContainer: {
@@ -44,8 +45,10 @@ function WeatherCurrent(props) {
     const [sortBy, setSortBy] = useState('name');
     const [currentPage, setCurrentPage] = useState(0);
     const [itemsPerPage, setItemsPerPage] = useState(100);
-    const [collapse, setCollapse] = useState(true);
+    const [collapseFilter, setCollapseFilter] = useState(true);
+    const [collapseTable, setCollapseTable] = useState(false);
     const [loading, setLoading] = useState(true);
+
     const filtersSelector = useSelector((state) => state.filters);
     const currentWeathers = useSelector((state) => state.weatherCurrent);
     const classes = useStyles();
@@ -77,7 +80,7 @@ function WeatherCurrent(props) {
     };
 
     const headCells = () => {
-        return [
+        return collapseTable ? [
             {
                 id: 'name',
                 label: i18n.t('current.header.cityName'),
@@ -138,6 +141,32 @@ function WeatherCurrent(props) {
                 notNumeric: true,
                 disablePadding: true,
             },
+        ] : 
+        [
+            {
+                id: 'name',
+                label: i18n.t('current.header.cityName'),
+                notNumeric: true,
+                disablePadding: true,
+            },
+            {
+                id: 'weatherMain.humidity',
+                label: i18n.t('current.header.humidity'),
+                notNumeric: false,
+                disablePadding: true,
+            },
+            {
+                id: 'weatherMain.temp',
+                label: i18n.t('current.header.temperature'),
+                notNumeric: false,
+                disablePadding: true,
+            },
+            {
+                id: 'weather.description',
+                label: i18n.t('current.header.description'),
+                notNumeric: true,
+                disablePadding: true,
+            },
         ];
     };
 
@@ -154,8 +183,12 @@ function WeatherCurrent(props) {
         setCurrentPage(page);
     };
 
-    const collapseAll = () => {
-        setCollapse((prev) => !prev);
+    const collapseFilterAll = () => {
+        setCollapseFilter((prev) => !prev);
+    }
+
+    const collapseTableAll = () => {
+        setCollapseTable((prev) => !prev);
     }
 
     return loading ? (
@@ -163,16 +196,38 @@ function WeatherCurrent(props) {
     ) : (
         <div className="container">
             <FormControlLabel
-              control={<Switch checked={collapse} onChange={collapseAll} />}
+              control={<Switch checked={collapseFilter}
+              onChange={collapseFilterAll} />}
               label="Display more Filters"
             />
+            
             <FiltersComponent
                 key={nanoid()}
                 temperatureUnits={temperature.units}
                 temperature={temperature.abbreviation}
                 handleChangePage={handleChangePage}
-                collapse={collapse}
+                collapse={collapseFilter}
             />
+            
+            <div className="d-flex justify-content-start">
+                <div className="d-flex justify-content-start">
+                    <Button
+                        variant="contained"
+                        onClick={() => dispatch(filtersActions.clear())}
+                        size="small"
+                        color="primary"
+                    >
+                        {i18n.t('common.clearFilters')}
+                    </Button>
+                </div>
+                <div className = "d-flex ml-auto p-2 col-example">
+                    <FormControlLabel
+                        control={<Switch checked={collapseTable}
+                        onChange={collapseTableAll} />}
+                        label="Display more Info"
+                    />
+                </div>
+            </div>
 
             <TablePagination
                 rowsPerPageOptions={[
@@ -212,6 +267,7 @@ function WeatherCurrent(props) {
                     <EnhancedTableBody
                         currentWeathers={currentWeathers}
                         temperature={temperature}
+                        isCollapse={collapseTable}
                     />
                 </Table>
             </TableContainer>
