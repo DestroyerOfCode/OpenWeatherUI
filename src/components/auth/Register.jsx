@@ -7,12 +7,13 @@ import { isEmail } from "validator";
 import { useDispatch, useSelector } from "react-redux";
 import { register } from "../../actions/auth.actions";
 import { authConstants } from "../../_constants";
+import i18n from 'i18next';
 
 const required = (value) => {
   if (!value) {
     return (
       <div className="alert alert-danger" role="alert">
-        This field is required!
+        {i18n.t('login.requiredField')}
       </div>
     );
   }
@@ -22,7 +23,7 @@ const vemail = (value) => {
   if (!isEmail(value)) {
     return (
       <div className="alert alert-danger" role="alert">
-        This is not a valid email.
+        {i18n.t('login.requiredField')}
       </div>
     );
   }
@@ -32,7 +33,7 @@ const vusername = (value) => {
   if (value.length < 3 || value.length > 20) {
     return (
       <div className="alert alert-danger" role="alert">
-        The username must be between 3 and 20 characters.
+        {i18n.t('register.userNameConstraint')}
       </div>
     );
   }
@@ -42,7 +43,7 @@ const vpassword = (value) => {
   if (value.length < 6 || value.length > 40) {
     return (
       <div className="alert alert-danger" role="alert">
-        The password must be between 6 and 40 characters.
+        {i18n.t('register.passwordConstraint')}
       </div>
     );
   }
@@ -105,7 +106,7 @@ function Register(props) {
             {!successful && (
               <div>
                 <div className="form-group">
-                  <label htmlFor="username">Username</label>
+                  <label htmlFor="username">{i18n.t('auth.userName')}</label>
                   <Input
                     type="text"
                     className="form-control"
@@ -129,7 +130,7 @@ function Register(props) {
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="password">Password</label>
+                  <label htmlFor="password">{i18n.t('auth.password')}</label>
                   <Input
                     type="password"
                     className="form-control"
@@ -141,7 +142,7 @@ function Register(props) {
                 </div>
 
                 <div className="form-group">
-                  <button className="btn btn-primary btn-block">Sign Up</button>
+                  <button className="btn btn-primary btn-block">{i18n.t('auth.signUp')}</button>
                 </div>
               </div>
             )}

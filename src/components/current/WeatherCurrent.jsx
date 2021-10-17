@@ -198,7 +198,7 @@ function WeatherCurrent(props) {
             <FormControlLabel
               control={<Switch checked={collapseFilter}
               onChange={collapseFilterAll} />}
-              label="Display more Filters"
+              label={i18n.t('current.filters.displayIcon')}
             />
             
             <FiltersComponent
@@ -208,7 +208,7 @@ function WeatherCurrent(props) {
                 handleChangePage={handleChangePage}
                 collapse={collapseFilter}
             />
-            
+
             <div className="d-flex justify-content-start">
                 <div className="d-flex justify-content-start">
                     <Button
@@ -224,7 +224,7 @@ function WeatherCurrent(props) {
                     <FormControlLabel
                         control={<Switch checked={collapseTable}
                         onChange={collapseTableAll} />}
-                        label="Display more Info"
+                        label={i18n.t('current.others.displayIcon')}
                     />
                 </div>
             </div>

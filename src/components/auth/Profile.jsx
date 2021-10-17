@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { patchUser } from '../../adapters/UserService';
+import i18n from '../../i18n';
 
 const Profile = () => {
     const { user: currentUser } = useSelector((state) => state.auth);
@@ -24,12 +25,12 @@ const Profile = () => {
         <div className="container">
             <header className="jumbotron">
                 <h3>
-                    <strong>{currentUser.userName}</strong> Profile
+                    <strong>{currentUser.userName}</strong> {i18n.t('profile.profile')}
                 </h3>
             </header>
             <label>
                 
-                <p>I want to have SMS with Weather Forecast sent</p>
+                <p>{i18n.t('profile.sendMessage')}</p>
                 <input
                     type="checkbox"
                     checked={sendMessage}

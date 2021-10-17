@@ -144,7 +144,11 @@
 			"temperatureMax": "Temperature Max",
 			"temperatureMin": "Temperature Min",
 			"pickDescriptions": "Pick Descriptions",
-			"pickCountries": "Pick Countries"
+			"pickCountries": "Pick Countries",
+			"displayIcon": "Display more Filters"
+		},
+		"others": {
+			"displayIcon": "Display more Info"
 		}
 	},
 	"forecast": {
@@ -180,6 +184,19 @@
 		"signIn": "Sign In",
 		"logOut": "Log Out",
 		"profile": "Profile",
-		"home": "Home"
+		"home": "Home",
+		"userName": "User Name",
+		"password": "Password"
+	},
+	"profile": {
+		"profile" : "Profile",
+		"sendMessage": "I want to have SMS with Weather Forecast sent"
+	},
+    "login": {
+        "requiredField": "This field is Required"
+    },
+	"register": {
+		"passwordConstraint": "Password must have between 6 to 40 characters",
+        "userNameConstraint": "User name must have between 3 to 20 characters"
 	}
 }

@@ -146,7 +146,12 @@
             "temperatureMax": "Höchste Temperatur",
             "temperatureMin": "Niedrichste Temperature",
             "pickDescriptions": "Wählen Beschriftung",
-            "pickCountries": "Wählen Land"
+            "pickCountries": "Wählen Land",
+            "displayIcon": "Mehr Filtern abzeigen"
+        },
+
+        "others": {
+            "displayIcon": "Mehr Information abzeigen"
         }
     },
 
@@ -183,6 +188,19 @@
         "signIn": "Anmeldung",
         "logOut": "Ausloggen",
         "profile": "Profil",
-        "home": "Haus"
-    }
+        "home": "Haus",
+		"userName": "Nutzername",
+		"password": "Passwort"
+	},
+	"profile": {
+		"profile" : "Profil",
+		"sendMessage": "Ich will mir selbst SMS mit Wetterprognose senden lassen"
+	},
+    "login": {
+        "requiredField": "Dieses Feld ist erfordelich"
+    },
+	"register": {
+		"passwordConstraint": "Heslo musí mať 6 až 40 znakov",
+        "userNameConstraint": "Používateľské meno musí mať 3 až 20 znakov"
+	}
 }

@@ -8,12 +8,13 @@ import CheckButton from "react-validation/build/button";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../actions/auth.actions";
 import { authConstants } from "../../_constants"; 
+import i18n from "../../i18n";
 
 const required = (value) => {
   if (!value) {
     return (
       <div className="alert alert-danger" role="alert">
-        This field is required!
+        {i18n.t('login.requiredField')}
       </div>
     );
   }
@@ -45,7 +46,6 @@ const Login = () => {
       dispatch(login(userName, password))
         .then(() => {
           history.push("/profile");
-          // window.location.reload();
         })
         .catch(() => setLoading(false));
     } else {
@@ -76,7 +76,7 @@ const Login = () => {
             ref={form}
           >
             <div className="form-group">
-              <label htmlFor="userName">Username</label>
+              <label htmlFor="userName">{i18n.t('auth.userName')}</label>
               <Input
                 type="text"
                 className="form-control"
@@ -88,7 +88,7 @@ const Login = () => {
             </div>
 
             <div className="form-group">
-              <label htmlFor="password">Password</label>
+              <label htmlFor="password">{i18n.t('auth.password')}</label>
               <Input
                 type="password"
                 className="form-control"
@@ -107,7 +107,7 @@ const Login = () => {
                 {loading && (
                   <span className="spinner-border spinner-border-sm"></span>
                 )}
-                <span>Login</span>
+                <span>{i18n.t('auth.signIn')}</span>
               </button>
             </div>
 

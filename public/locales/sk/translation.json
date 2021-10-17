@@ -144,7 +144,11 @@
 			"temperatureMax": "Maximálna teplota",
 			"temperatureMin": "Minimálna teplota",
 			"pickDescriptions": "Vyber popis",
-			"pickCountries": "Vyber krajinu"
+			"pickCountries": "Vyber krajinu",
+			"displayIcon": "Zobraz viac filtrov"
+		},
+		"others": {
+			"displayIcon": "Zobraz viac info"
 		}
 	},
 	"forecast": {
@@ -180,6 +184,19 @@
 		"signIn": "Prihlásenie",
 		"logOut": "Odhlásenie",
 		"profile": "Profil",
-		"home": "Domov"
+		"home": "Domov",
+		"userName": "Používateľské meno",
+		"password": "Heslo"
+	},
+	"profile": {
+		"profile" : "Profil",
+		"sendMessage": "Chcem si nechať zasielať SMS správy s počasím"
+	},
+    "login": {
+        "requiredField": "Toto pole je požadované"
+    },
+	"register": {
+		"passwordConstraint": "Passwort musst zwischen 3 und 20 Zeichen haben",
+        "userNameConstraint": "Nutzername musst zwischen 6 und 40 Zeichen haben"
 	}
 }
