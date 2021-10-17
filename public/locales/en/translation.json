@@ -135,7 +135,7 @@
 			"description": "Description"
 		},
 		"filters": {
-			"cityName": "city Name",
+			"cityName": "City Name",
 			"latitude": "Latitude",
 			"longitude": "Longitude",
 			"humidity": "Humidity",
