@@ -16,17 +16,13 @@ import { convertTemperature } from '../../businessLogic/WeatherBusinessLogic';
 import Button from '@material-ui/core/Button';
 
 import CollapsibleFormControl from '../common/CollapsibleFormControl';
-
 const useStyles = makeStyles((theme) => ({
     root: {
-        '& > *': {
+        '& *': {
             margin: theme.spacing(1),
         },
         display: 'flex',
         flexWrap: 'wrap',
-    },
-    margin: {
-        margin: theme.spacing(1),
     },
 }));
 
@@ -120,6 +116,8 @@ function FiltersComponent(props) {
                         }}
                     />
                 </FormControl>
+                <CollapsibleFormControl collapse={collapse}>
+
                 <FormControl fullWidth={false} variant="filled" size="small">
                     <InputLabel type={Number} htmlFor="component-simple">
                         {i18n.t('current.filters.humidity')}{' '}
@@ -139,7 +137,7 @@ function FiltersComponent(props) {
                         }
                     />
                 </FormControl>
-                <CollapsibleFormControl collapse={collapse}>
+                
                     <FormControl fullWidth={false} variant="filled" size="small">
                     <InputLabel type={Number} htmlFor="component-simple">
                         {i18n.t('current.filters.humidity')}{' '}
@@ -166,8 +164,8 @@ function FiltersComponent(props) {
                         }}
                     />
                     </FormControl>
-                </CollapsibleFormControl>
-                <CollapsibleFormControl collapse={collapse}>
+                
+                
                 <FormControl fullWidth={false} variant="filled" size="small">
                     <InputLabel type={Number} htmlFor="component-simple">
                         {i18n.t('current.filters.feelTemperature')}{' '}
@@ -199,8 +197,8 @@ function FiltersComponent(props) {
                         }}
                     />
                     </FormControl>
-                </CollapsibleFormControl>
-                <CollapsibleFormControl collapse={collapse}>
+                
+                
                     <FormControl fullWidth={false} variant="filled" size="small">
                     <InputLabel type={Number} htmlFor="component-simple">
                         {i18n.t('current.filters.feelTemperature')}{' '}
@@ -232,9 +230,9 @@ function FiltersComponent(props) {
                         }}
                     />
                     </FormControl>
-                </CollapsibleFormControl>
+                
 
-               <CollapsibleFormControl collapse={collapse}>
+               
                    <FormControl fullWidth={false} variant="filled" size="small">
                     <InputLabel type={String} htmlFor="component-simple">
                         {i18n.t('current.filters.temperatureMax')}{' '}
@@ -266,9 +264,9 @@ function FiltersComponent(props) {
                         }}
                     />
                     </FormControl>
-                </CollapsibleFormControl>
+                
 
-                <CollapsibleFormControl collapse={collapse}>
+                
                     <FormControl fullWidth={false} variant="filled" size="small">
                     <InputLabel type={Number} htmlFor="component-simple">
                         {i18n.t('current.filters.temperatureMax')}{' '}
@@ -300,9 +298,9 @@ function FiltersComponent(props) {
                         }}
                     />
                     </FormControl>
-                </CollapsibleFormControl>
+                
 
-                <CollapsibleFormControl collapse={collapse}>
+                
                     <FormControl fullWidth={false} variant="filled" size="small">
                     <InputLabel type={Number} htmlFor="component-simple">
                         {i18n.t('current.filters.temperatureMin')}{' '}
@@ -334,9 +332,7 @@ function FiltersComponent(props) {
                         }}
                     />
                     </FormControl>
-                </CollapsibleFormControl>
-
-                <CollapsibleFormControl collapse={collapse}>
+                
                     <FormControl fullWidth={false} variant="filled" size="small">
                     <InputLabel type={Number} htmlFor="component-simple">
                         {i18n.t('current.filters.temperatureMin')}{' '}
@@ -368,9 +364,9 @@ function FiltersComponent(props) {
                         }}
                     />
                     </FormControl>
-                </CollapsibleFormControl>
+                
 
-                <CollapsibleFormControl collapse={collapse}>
+                
                     <FormControl>
                     <InputLabel
                         variant="standard"
@@ -394,9 +390,9 @@ function FiltersComponent(props) {
                         }
                     />
                     </FormControl>
-                </CollapsibleFormControl>
+                
 
-                <CollapsibleFormControl collapse={collapse}>
+                
                     <FormControl>
                     <InputLabel type={String} htmlFor="component-simple">
                         {i18n.t('current.filters.latitude')}{' '}
@@ -415,9 +411,9 @@ function FiltersComponent(props) {
                         }
                     />
                     </FormControl>
-                </CollapsibleFormControl>
+                
 
-                <CollapsibleFormControl collapse={collapse}>
+                
                     <FormControl>
                     <InputLabel type={String} htmlFor="component-simple">
                         {i18n.t('current.filters.longitude')}{' '}
@@ -436,8 +432,7 @@ function FiltersComponent(props) {
                         }
                     />
                     </FormControl>
-                </CollapsibleFormControl>
-                <CollapsibleFormControl collapse={collapse}>
+                
                     <FormControl fullWidth={false} variant="filled" size="small">
                         <InputLabel type={String} htmlFor="component-simple">
                             {i18n.t('current.filters.longitude')}{' '}
@@ -456,7 +451,6 @@ function FiltersComponent(props) {
                             }
                         />
                     </FormControl>
-                </CollapsibleFormControl>
                 <Multiselect
                     selectedValues={getSelectedDescriptions(
                         filters['weather.description']?.$in,
@@ -486,6 +480,7 @@ function FiltersComponent(props) {
                         )
                     }
                 />
+                
                 <Multiselect
                     selectedValues={getSelectedCountries(
                         filters['sys.countryName']?.$in,
@@ -519,6 +514,7 @@ function FiltersComponent(props) {
                         )
                     }
                 />
+                </CollapsibleFormControl>
             </form>
 
             <Button
