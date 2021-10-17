@@ -27,3 +27,4 @@ src/.prettierrc
 .vscode/
 dk\ update
 .idea
+yarn.lock

@@ -14,6 +14,7 @@ import {
 import { nanoid } from 'nanoid';
 import { convertTemperature } from '../../businessLogic/WeatherBusinessLogic';
 import Button from '@material-ui/core/Button';
+import CollapsibleFormControl from '../common/CollapsibleFormControl';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -50,18 +51,20 @@ function FiltersComponent(props) {
     return (
         <>
             <form className={classes.root} noValidate autoComplete="off">
-                <FormControl fullWidth={false} variant="filled" size="small">
-                    <InputLabel type={String} htmlFor="component-simple">
-                        {i18n.t('current.filters.cityName')}
-                    </InputLabel>
-                    <Input
-                        id={nanoid()}
-                        defaultValue={filters?.name?.$eq}
-                        onBlur={(event) =>
-                            onBlurEvent(event.target.value, 'name', '$eq')
-                        }
-                    />
-                </FormControl>
+                <CollapsibleFormControl>
+                    <FormControl fullWidth={false} variant="filled" size="small">
+                        <InputLabel type={String} htmlFor="component-simple">
+                            {i18n.t('current.filters.cityName')}
+                        </InputLabel>
+                        <Input
+                            id={nanoid()}
+                            defaultValue={filters?.name?.$eq}
+                            onBlur={(event) =>
+                                onBlurEvent(event.target.value, 'name', '$eq')
+                            }
+                        />
+                    </FormControl>
+                </CollapsibleFormControl>
                 <FormControl>
                     <InputLabel
                         variant="standard"
