@@ -6,8 +6,8 @@ export const countriesActions = {
 };
 
 function getCountries() {
-    return async (dispatch) => {
-        await retrieveAllCountries().then((response) =>
+    return (dispatch) => {
+        retrieveAllCountries().then((response) =>
             dispatch({
                 type: 'GET_COUNTRIES',
                 countries: internationalizeCountries(response),

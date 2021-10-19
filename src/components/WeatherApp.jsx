@@ -1,25 +1,17 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Switch, Route, useHistory } from 'react-router-dom';
-import WeatherCurrentComponent from './current/WeatherCurrent';
 import { withTranslation } from 'react-i18next';
-import WeatherForecastComponent from './forecast/daily/WeatherForecastDaily';
-import { TemperatureDropdownList } from '../buildingBlocks/Temperature';
-import TemperatureCtx from '../buildingBlocks/Temperature';
 import { makeStyles } from '@material-ui/core/styles';
 
 import i18n from 'i18next';
 import Button from '@material-ui/core/Button';
-import Register from './auth/Register';
-import Login from './auth/Login';
-import Profile from './auth/Profile';
 import { logout } from "../actions/auth.actions";
 import { useDispatch } from 'react-redux';
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import Dashboard from './Dashboard';
 import {LoginPage, ProfilePage, RegisterPage, WeatherCurrentPage, WeatherForecastPage} from '../pages'
-import WeatherCurrent from './current/WeatherCurrent';
 
 const useStyles = makeStyles((theme) => ({
     header: {
@@ -78,10 +70,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function WeatherApp() {
-    const [temperature, setTemperature] = useState({
-        units: 'celsius',
-        abbreviation: '°C',
-    });
     const [isOpened, setIsOpened] = useState(false);
 
     const dispatch = useDispatch();
@@ -94,17 +82,8 @@ function WeatherApp() {
     const handlePath = (path) => history.push(path);
     
     const { user: currentUser } = useSelector((state) => state.auth);
+
     const classes = useStyles();
-    const temperatureDropdown = () => (
-        <TemperatureDropdownList
-            changeTemperatureUnitsState={(units, abbreviation) => {
-                setTemperature({
-                    units: units,
-                    abbreviation: abbreviation,
-                });
-            }}
-        />                          
-    );
 
     return (
         <div>
@@ -162,25 +141,11 @@ function WeatherApp() {
                         <Route
                             exact
                             path="/"
-                            render={(props) => (
-                                <>
-                                    {temperatureDropdown()}
-                                    <TemperatureCtx.Provider value={temperature}>
-                                        {WeatherCurrentPage(props)}
-                                    </TemperatureCtx.Provider>
-                                </>
-                            )}
+                            component={WeatherCurrentPage}
                         />
                         <Route
                             path="/forecast"
-                            render={(props) => (
-                                <>
-                                    {temperatureDropdown()}
-                                    <TemperatureCtx.Provider value={temperature}>
-                                        {WeatherForecastPage(props)}
-                                    </TemperatureCtx.Provider>
-                                </>
-                            )}
+                            component={WeatherForecastPage}
                         />
                         <Route
                             exact path="/register"

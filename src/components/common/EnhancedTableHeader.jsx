@@ -11,7 +11,6 @@ function EnhancedTableHeader(props) {
                     <TableCell
                         width={'1000'}
                         key={headCell.id}
-                        // align={headCell.notNumeric ? 'left' : 'right'}
                         sortDirection={orderBy === headCell.id ? order : false}
                         padding="none"
                         onClick={() => changeOrder(headCell.id)}

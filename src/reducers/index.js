@@ -5,6 +5,7 @@ import { countries } from './countries.reducer';
 import { descriptions } from './descriptions.reducer';
 import { messages } from './messages.reducer';
 import { auth } from './auth.reducer';
+import { temperature } from './temperature.reducer';
 
 const rootReducer = combineReducers({
     filters,
@@ -12,7 +13,8 @@ const rootReducer = combineReducers({
     countries,
     descriptions,
     messages,
-    auth
+    auth,
+    temperature
 });
 
 export default rootReducer;

@@ -13,6 +13,8 @@ import TemperatureCtx from '../../../buildingBlocks/Temperature';
 import CustomCircularLoader from '../../../buildingBlocks/CustomCircularLoader';
 import EnhancedTableHeader from '../../common/EnhancedTableHeader';
 import WeatherForecastTableBody from './WeatherForecastTableBody';
+import { TemperatureDropdownList } from '../../../buildingBlocks/Temperature';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
     table: {
@@ -40,7 +42,7 @@ function WeatherForecastComponent(props) {
     const [isAscending, setIsAscending] = useState(true);
     const [sortBy, setSortBy] = useState('sunrise');
     const [loading, setLoading] = useState(true);
-    const temperature = useContext(TemperatureCtx);
+    const {temperature} = useSelector((state) => state.temperature);
 
     const classes = useStyles();
 
@@ -64,6 +66,7 @@ function WeatherForecastComponent(props) {
         <CustomCircularLoader />
     ) : (
         <>
+        <TemperatureDropdownList/>
             <Link to={{ pathname: '/' }}>
                 <Button variant="contained" color="primary">
                     {i18n.t('forecast.currentWeather')}

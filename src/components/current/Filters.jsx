@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Multiselect } from 'multiselect-react-dropdown';
 import i18n from 'i18next';
@@ -32,7 +32,7 @@ function FiltersComponent(props) {
     const filters = useSelector((state) => state.filters);
     const countries = useSelector((state) => state.countries);
     const descriptions = useSelector((state) => state.descriptions);
-
+    const temperature = useSelector(state => state.temperature);
     const dispatch = useDispatch();
     const classes = useStyles();
 
@@ -72,13 +72,13 @@ function FiltersComponent(props) {
                         placeholder={i18n.t('common.from')}
                         id={nanoid()}
                         defaultValue={convertTemperature(
-                            props.temperatureUnits,
+                            temperature.units,
                             filters['weatherMain.temp']?.$gte
                         )}
                         onBlur={(event) => {
                             return onBlurEvent(
                                 calculateKelvins(
-                                    props.temperatureUnits,
+                                    temperature.units,
                                     event.target.value
                                 ),
                                 'weatherMain.temp',
@@ -102,13 +102,13 @@ function FiltersComponent(props) {
                         id={nanoid()}
                         type={Number}
                         defaultValue={convertTemperature(
-                            props.temperatureUnits,
+                            temperature.units,
                             filters['weatherMain.temp']?.$lte
                         )}
                         onBlur={(event) => {
                             return onBlurEvent(
                                 calculateKelvins(
-                                    props.temperatureUnits,
+                                    temperature.units,
                                     event.target.value
                                 ),
                                 'weatherMain.temp',
@@ -174,14 +174,14 @@ function FiltersComponent(props) {
                             placeholder={i18n.t('common.from')}
                             id={nanoid()}
                             defaultValue={convertTemperature(
-                                props.temperatureUnits,
+                                temperature.units,
                                 filters['weatherMain.feels_like']?.$gte
                             )}
                             onBlur={(event) => {
                                 if (event && event.target.value !== '')
                                     return onBlurEvent(
                                         calculateKelvins(
-                                            props.temperatureUnits,
+                                            temperature.units,
                                             event.target.value
                                         ),
                                         'weatherMain.feels_like',
@@ -206,14 +206,14 @@ function FiltersComponent(props) {
                         placeholder={i18n.t('common.to')}
                         id={nanoid()}
                         defaultValue={convertTemperature(
-                            props.temperatureUnits,
+                            temperature.units,
                             filters['weatherMain.feels_like']?.$lte
                         )}
                         onBlur={(event) => {
                             if (event && event.target.value !== '')
                                 return onBlurEvent(
                                     calculateKelvins(
-                                        props.temperatureUnits,
+                                        temperature.units,
                                         event.target.value
                                     ),
                                     'weatherMain.feels_like',
@@ -238,14 +238,14 @@ function FiltersComponent(props) {
                         placeholder={i18n.t('common.from')}
                         id="component-simple"
                         defaultValue={convertTemperature(
-                            props.temperatureUnits,
+                            temperature.units,
                             filters['weatherMain.temp_max']?.$gte
                         )}
                         onBlur={(event) => {
                             if (event.target.value !== '')
                                 return onBlurEvent(
                                     calculateKelvins(
-                                        props.temperatureUnits,
+                                        temperature.units,
                                         event.target.value
                                     ),
                                     'weatherMain.temp_max',
@@ -272,14 +272,14 @@ function FiltersComponent(props) {
                         placeholder={i18n.t('common.to')}
                         id={nanoid()}
                         defaultValue={convertTemperature(
-                            props.temperatureUnits,
+                            temperature.units,
                             filters['weatherMain.temp_max']?.$lte
                         )}
                         onBlur={(event) => {
                             if (event.target.value !== '')
                                 return onBlurEvent(
                                     calculateKelvins(
-                                        props.temperatureUnits,
+                                        temperature.units,
                                         event.target.value
                                     ),
                                     'weatherMain.temp_max',
@@ -306,14 +306,14 @@ function FiltersComponent(props) {
                         placeholder={i18n.t('common.from')}
                         id={nanoid()}
                         defaultValue={convertTemperature(
-                            props.temperatureUnits,
+                            temperature.units,
                             filters['weatherMain.temp_min']?.$gte
                         )}
                         onBlur={(event) => {
                             if (event.target.value !== '')
                                 return onBlurEvent(
                                     calculateKelvins(
-                                        props.temperatureUnits,
+                                        temperature.units,
                                         event.target.value
                                     ),
                                     'weatherMain.temp_min',
@@ -338,14 +338,14 @@ function FiltersComponent(props) {
                         placeholder={i18n.t('common.to')}
                         id={nanoid()}
                         defaultValue={convertTemperature(
-                            props.temperatureUnits,
+                            temperature.units,
                             filters['weatherMain.temp_min']?.$lte
                         )}
                         onBlur={(event) => {
                             if (event.target.value !== '')
                                 return onBlurEvent(
                                     calculateKelvins(
-                                        props.temperatureUnits,
+                                        temperature.units,
                                         event.target.value
                                     ),
                                     'weatherMain.temp_min',
@@ -532,11 +532,11 @@ const getSelectedCountries = (countryValues, countries) => {
 
 // In db values are in kelvin. The user can change it on the UI.
 // I must convert to same units
-const calculateKelvins = (temperatureUnits, temperatureValue) => {
+const calculateKelvins = (units, temperatureValue) => {
     if (temperatureValue === '') return '';
-    if (temperatureUnits === 'celsius')
+    if (units === 'celsius')
         return parseFloat(temperatureValue) + 273.15;
-    if (temperatureUnits === 'fahrenheit')
+    if (units === 'fahrenheit')
         return ((parseFloat(temperatureValue) + 459.67) * 5) / 9;
     return parseFloat(temperatureValue);
 };

@@ -10,9 +10,12 @@ import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 import { nanoid } from 'nanoid';
 import { withStyles } from '@material-ui/core/styles';
+import { useSelector } from 'react-redux';
 
 function EnhancedTableBody(props) {
-    const { currentWeathers, temperature, isCollapse } = props;
+    const { currentWeathers, isCollapse } = props;
+    const temperature = useSelector(state => state.temperature);
+
     return currentWeathers.content?.length ? (
         <TableBody>
             {currentWeathers.content.map((weather) => {
@@ -49,7 +52,7 @@ function EnhancedTableBody(props) {
                             {`${convertTemperature(
                                 temperature.units,
                                 weather.weatherMain.feels_like
-                                )}${temperature.abbreviation}`
+                                )}`
                             }
                         </StyledTableCell>
                         }
@@ -57,7 +60,7 @@ function EnhancedTableBody(props) {
                             {`${convertTemperature(
                                 temperature.units,
                                 weather.weatherMain.temp
-                                )}${temperature.abbreviation}`
+                                )}`
                             }
                         </StyledTableCell>
                         
@@ -65,7 +68,7 @@ function EnhancedTableBody(props) {
                             {`${convertTemperature(
                                 temperature.units,
                                 weather.weatherMain.temp_max
-                                )}${temperature.abbreviation}`
+                                )}`
                             }
                         </StyledTableCell>
                         }
@@ -73,7 +76,7 @@ function EnhancedTableBody(props) {
                             {`${convertTemperature(
                                 temperature.units,
                                 weather.weatherMain.temp_min
-                                )}${temperature.abbreviation}`
+                                )}`
                             }
                         </StyledTableCell>
                         }

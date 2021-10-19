@@ -14,8 +14,8 @@ const internationalizeDescriptions = (descriptions) => {
 };
 
 function getDescriptions() {
-    return async (dispatch) => {
-        await retrieveAllDescriptions().then((response) => {
+    return (dispatch) => {
+         retrieveAllDescriptions().then((response) => {
             console.log(response);
             dispatch({
                 type: 'GET_DESCRIPTIONS',

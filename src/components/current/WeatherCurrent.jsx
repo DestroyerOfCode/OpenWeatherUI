@@ -8,7 +8,6 @@ import Paper from '@material-ui/core/Paper';
 import TablePagination from '@material-ui/core/TablePagination';
 import FiltersComponent from './Filters';
 import i18n from 'i18next';
-import TemperatureCtx from '../../buildingBlocks/Temperature';
 import CustomCircularLoader from '../../buildingBlocks/CustomCircularLoader';
 import EnhancedTableHead from '../common/EnhancedTableHeader';
 import EnhancedTableBody from './WeatherCurrentTableBody';
@@ -16,7 +15,7 @@ import { weatherCurrentActions, filtersActions } from '../../actions';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import Button from '@material-ui/core/Button';
-
+import { TemperatureDropdownList } from '../../buildingBlocks/Temperature';
 const useStyles = makeStyles((theme) => ({
     tableContainer: {
         maxHeight: 500,
@@ -53,7 +52,7 @@ function WeatherCurrent(props) {
     const currentWeathers = useSelector((state) => state.weatherCurrent);
     const classes = useStyles();
     const dispatch = useDispatch();
-    const temperature = useContext(TemperatureCtx);
+    const temperature = useSelector((state) => state.temperature);
 
     useEffect(() => {
         refreshWeathers();
@@ -113,25 +112,25 @@ function WeatherCurrent(props) {
             },
             {
                 id: 'weatherMain.feels_like',
-                label: i18n.t('current.header.feelsLike'),
+                label: `${i18n.t('current.header.feelsLike')} ${temperature.abbreviation}`,
                 notNumeric: false,
                 disablePadding: false,
             },
             {
                 id: 'weatherMain.temp',
-                label: i18n.t('current.header.temperature'),
+                label: `${i18n.t('current.header.temperature')} ${temperature.abbreviation}`,
                 notNumeric: false,
                 disablePadding: true,
             },
             {
                 id: 'weatherMain.temp_max',
-                label: i18n.t('current.header.maximumTemperature'),
+                label: `${i18n.t('current.header.maximumTemperature')} ${temperature.abbreviation}`,
                 notNumeric: false,
                 disablePadding: false,
             },
             {
                 id: 'weatherMain.temp_min',
-                label: i18n.t('current.header.minimalTemperature'),
+                label: `${i18n.t('current.header.minimalTemperature')} ${temperature.abbreviation}`,
                 notNumeric: false,
                 disablePadding: false,
             },
@@ -157,7 +156,7 @@ function WeatherCurrent(props) {
             },
             {
                 id: 'weatherMain.temp',
-                label: i18n.t('current.header.temperature'),
+                label: `${i18n.t('current.header.temperature')} ${temperature.abbreviation}`,
                 notNumeric: false,
                 disablePadding: true,
             },
@@ -195,6 +194,7 @@ function WeatherCurrent(props) {
         <CustomCircularLoader />
     ) : (
         <div className="container">
+            <TemperatureDropdownList/>
             <FormControlLabel
               control={<Switch checked={collapseFilter}
               onChange={collapseFilterAll} />}
@@ -203,8 +203,6 @@ function WeatherCurrent(props) {
             
             <FiltersComponent
                 key={nanoid()}
-                temperatureUnits={temperature.units}
-                temperature={temperature.abbreviation}
                 handleChangePage={handleChangePage}
                 collapse={collapseFilter}
             />
