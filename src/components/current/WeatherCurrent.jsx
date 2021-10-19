@@ -45,7 +45,7 @@ function WeatherCurrent(props) {
     const [sortBy, setSortBy] = useState('name');
     const [currentPage, setCurrentPage] = useState(0);
     const [itemsPerPage, setItemsPerPage] = useState(100);
-    const [collapseFilter, setCollapseFilter] = useState(true);
+    const [collapseFilter, setCollapseFilter] = useState(false);
     const [collapseTable, setCollapseTable] = useState(false);
     const [loading, setLoading] = useState(true);
 
