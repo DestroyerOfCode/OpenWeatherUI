@@ -18,6 +18,8 @@ import { useDispatch } from 'react-redux';
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import Dashboard from './Dashboard';
+import {LoginPage, ProfilePage, RegisterPage, WeatherCurrentPage, WeatherForecastPage} from '../pages'
+import WeatherCurrent from './current/WeatherCurrent';
 
 const useStyles = makeStyles((theme) => ({
     header: {
@@ -164,7 +166,7 @@ function WeatherApp() {
                                 <>
                                     {temperatureDropdown()}
                                     <TemperatureCtx.Provider value={temperature}>
-                                        <WeatherCurrentComponent {...props} />
+                                        {WeatherCurrentPage(props)}
                                     </TemperatureCtx.Provider>
                                 </>
                             )}
@@ -175,22 +177,22 @@ function WeatherApp() {
                                 <>
                                     {temperatureDropdown()}
                                     <TemperatureCtx.Provider value={temperature}>
-                                        <WeatherForecastComponent {...props} />
+                                        {WeatherForecastPage(props)}
                                     </TemperatureCtx.Provider>
                                 </>
                             )}
                         />
                         <Route
                             exact path="/register"
-                            component={Register}
+                            component={RegisterPage}
                         />
                         <Route
                             exact path = "/login"
-                            component = {Login}
+                            component = {LoginPage}
                         />
                         <Route 
                             exact path = "/profile"
-                            component = {Profile}
+                            component = {ProfilePage}
                         />
                     </Switch>
                 </main> 
