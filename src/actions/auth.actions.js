@@ -1,7 +1,7 @@
 import { authConstants } from "../_constants";  
 import AuthService from "../adapters/AuthService";
   
-export const register = (userName, email, password) => (dispatch) => {
+export const registerUser = (userName, email, password) => (dispatch) => {
     return AuthService.register(userName, email, password).then(
       (response) => {
         dispatch({

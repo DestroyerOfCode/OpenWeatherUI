@@ -1,73 +1,80 @@
-import React, { useState, useRef, useEffect } from "react";
-import Form from "react-validation/build/form";
-import Input from "react-validation/build/input";
-import CheckButton from "react-validation/build/button";
-import { isEmail } from "validator";
+import React, { useState, useEffect } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
-import { register } from "../../actions/auth.actions";
 import { authConstants } from "../../_constants";
 import i18n from 'i18next';
+import { makeStyles } from '@material-ui/core/styles';
 
-const required = (value) => {
-  if (!value) {
-    return (
-      <div className="alert alert-danger" role="alert">
-        {i18n.t('login.requiredField')}
-      </div>
-    );
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { registerUser } from "../../actions";
+
+const schema = yup.object({
+  userName: yup.string().min(5).max(30).required(),
+  password: yup.string().required().max(20).min(4),
+  email: yup.string().email().required()
+}).required();
+
+const useStyles = makeStyles((theme) => ({
+  form : {
+    "width": "100%",
+    "display": "flex",
+    "margin-left": "auto",
+    "margin-right": "auto",
+    "justify-content": "center",
+
+  },
+  input: {
+    "display":" block",
+    "box-sizing": "border-box",
+    "width":" full",
+    "border":"4px",
+    "border":" 1px solid black",
+    "padding":" 10px 15px",
+    "margin-bottom": "10px",
+    "font-size": "14px",
+  },
+  label: {
+    "line-height":" 2",
+    "text-align":" left",
+    "display": "block",
+    "margin-bottom":" 13px",
+    "margin-top":" 20px",
+    "font-size":" 14px",
+    "font-weight":" 200",
+  },
+  button: {
+    "display":" block",
+    "appearance":" none",
+    "margin-top": "40px",
+    "border":" 1px solid #333",
+    "margin-bottom": "20px",
+    "text-transform": "uppercase",
+    "padding":" 10px 20px",
+    "border-radius": "4px",
+    "background": "blue",
+    "color": "white",
+  },
+  error: {
+    color: "red",
+  },
+  header: {
+    "text-align": "center"
   }
-};
+}));
 
-const vemail = (value) => {
-  if (!isEmail(value)) {
-    return (
-      <div className="alert alert-danger" role="alert">
-        {i18n.t('login.requiredField')}
-      </div>
-    );
-  }
-};
+function Register() {
 
-const vusername = (value) => {
-  if (value.length < 3 || value.length > 20) {
-    return (
-      <div className="alert alert-danger" role="alert">
-        {i18n.t('register.userNameConstraint')}
-      </div>
-    );
-  }
-};
+  const { register, handleSubmit, formState:{ errors } } = useForm({
+    resolver: yupResolver(schema)
+  });
 
-const vpassword = (value) => {
-  if (value.length < 6 || value.length > 40) {
-    return (
-      <div className="alert alert-danger" role="alert">
-        {i18n.t('register.passwordConstraint')}
-      </div>
-    );
-  }
-};
-
-function Register(props) {
-
-  const form = useRef();
-  const checkBtn = useRef();
-
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [successful, setSuccessful] = useState(false);
     
   const dispatch = useDispatch();
 
   const {message} = useSelector(state => state.messages);
-
-  const onChangeUsername = (e) => setUsername(e.target.value);
-
-  const onChangeEmail = (e) => setEmail(e.target.value)
-
-  const onChangePassword = (e) => setPassword(e.target.value)
 
   useEffect(() => {
     dispatch({
@@ -75,91 +82,56 @@ function Register(props) {
     })
   }, []);
 
-  const handleRegister = (e) => {
-    e.preventDefault();
+  const classes = useStyles();
 
+  const handleRegister = (data) => {
+    const {userName, email, password} = data;
     setSuccessful(false);
-
-    form.current.validateAll();
-
-    if (checkBtn.current.context._errors.length === 0) {
-      dispatch(
-          register(username, email, password)
-        )
-        .then(() =>
-          setSuccessful(true)
-        )
-        .catch(() => 
-          setSuccessful(false)
-        );
-      }
-    }
-
+    dispatch(
+      registerUser(userName, email, password)
+    )
+    .then(() =>
+      setSuccessful(true)
+    )
+    .catch(() => 
+      setSuccessful(false)
+    );
+  }
     return (
       <div className="col-md-12">
-        <div className="card card-container">
-
-          <Form
-            onSubmit={handleRegister}
-            ref={form}
+          <h1 className={classes.header}>Register</h1>
+          <form className={classes.form} onSubmit={handleSubmit((data) => handleRegister(data))}
           >
             {!successful && (
               <div>
-                <div className="form-group">
-                  <label htmlFor="username">{i18n.t('auth.userName')}</label>
-                  <Input
-                    type="text"
-                    className="form-control"
-                    name="username"
-                    value={username}
-                    onChange={onChangeUsername}
-                    validations={[required, vusername]}
-                  />
+                <div>
+                  <label className={classes.label} > {i18n.t('auth.userName')}</label>
+                  <input className={classes.input}  {...register("userName")}/>
                 </div>
+                {errors.userName && <p className={classes.error}>{errors.userName.message}</p>}
 
-                <div className="form-group">
-                  <label htmlFor="email">Email</label>
-                  <Input
-                    type="text"
-                    className="form-control"
-                    name="email"
-                    value={email}
-                    onChange={onChangeEmail}
-                    validations={[required, vemail]}
-                  />
+                <div>
+                  <label className={classes.label} > Email</label>
+                  <input className={classes.input}  {...register("email")}/>
                 </div>
+                {errors.email && <p className={classes.error}>{errors.email.message}</p>}
 
-                <div className="form-group">
-                  <label htmlFor="password">{i18n.t('auth.password')}</label>
-                  <Input
-                    type="password"
-                    className="form-control"
-                    name="password"
-                    value={password}
-                    onChange={onChangePassword}
-                    validations={[required, vpassword]}
-                  />
+                <div>
+                  <label className={classes.label} >{i18n.t('auth.password')}</label>
+                  <input className={classes.input}  {...register("password")}/>
                 </div>
+                {errors.password && <p className={classes.error}>{errors.password.message}</p>}
 
-                <div className="form-group">
-                  <button className="btn btn-primary btn-block">{i18n.t('auth.signUp')}</button>
-                </div>
+                <input className={classes.button} type="submit" />
               </div>
             )}
 
             {message && (
-              <div className="form-group">
                 <div className={ successful ? "alert alert-success" : "alert alert-danger" } role="alert">
                   {message}
                 </div>
-              </div>
             )}
-            <CheckButton
-              style={{ display: "none" }}
-              ref={checkBtn}
-            />
-          </Form>
-        </div>
+          </form>
       </div>
     );
 
