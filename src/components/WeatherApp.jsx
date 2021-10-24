@@ -87,46 +87,43 @@ function WeatherApp() {
 
     return (
         <div>
-            <div className={classes.header}>
-                <div className="icon" onClick={() => setIsOpened(!isOpened)}>
+            <div class="flex">
+                <div className="flex-auto" onClick={() => setIsOpened(!isOpened)}>
                     {isOpened ? <ChevronLeftIcon /> : <MenuIcon />}
                 </div>
                 
-                <div className="d-flex ml-auto p-2 col-example">
-                <Button
-                    className={classes.languageButton}
-                    variant="outlined"
-                    onClick={() => i18n.changeLanguage('en')}
-                    size="small"
-                    disabled={i18n.language === 'en'}
-                    color={i18n.language === 'en' ? 'yellow' : 'primary'}
-                    value="en"
-                >
-                    EN
-                </Button>
-                <Button
-                    className={classes.languageButton}
-                    variant="outlined"
-                    onClick={() => i18n.changeLanguage('sk')}
-                    size="small"
-                    disabled={i18n.language === 'sk'}
-                    color={i18n.language === 'sk' ? 'default' : 'primary'}
-                    value="sk"
-                >
-                    SK
-                </Button>
-                <Button
-                    className={classes.languageButton}
-                    variant="outlined"
-                    onClick={() => i18n.changeLanguage('de')}
-                    size="small"
-                    disabled={i18n.language === 'de'}
-                    color={i18n.language === 'de' ? 'default' : 'primary'}
-                    value="de"
-                >
-                    DE
-                </Button>
-            </div>
+                <div className="flex-auto">
+                    <button
+                        className="bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-opacity-50"
+                        onClick={() => i18n.changeLanguage('en')}
+                        disabled={i18n.language === 'en'}
+                        value="en"
+                    >
+                        EN
+                    </button>
+                    <Button
+                        className={classes.languageButton}
+                        variant="outlined"
+                        onClick={() => i18n.changeLanguage('sk')}
+                        size="small"
+                        disabled={i18n.language === 'sk'}
+                        color={i18n.language === 'sk' ? 'default' : 'primary'}
+                        value="sk"
+                    >
+                        SK
+                    </Button>
+                    <Button
+                        className={classes.languageButton}
+                        variant="outlined"
+                        onClick={() => i18n.changeLanguage('de')}
+                        size="small"
+                        disabled={i18n.language === 'de'}
+                        color={i18n.language === 'de' ? 'default' : 'primary'}
+                        value="de"
+                    >
+                        DE
+                    </Button>
+                </div>
             </div>
             <div className="d-flex">
                 <aside className={isOpened ? classes.opened : classes.drawer}>

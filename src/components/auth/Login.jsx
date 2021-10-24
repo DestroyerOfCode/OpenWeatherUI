@@ -1,56 +1,90 @@
 import React, {useState, useRef, useEffect} from "react";
 import { Redirect, useHistory } from 'react-router-dom';
 
-import Form from "react-validation/build/form";
-import Input from "react-validation/build/input";
-import CheckButton from "react-validation/build/button";
+import { makeStyles } from '@material-ui/core/styles';
 
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../actions/auth.actions";
 import { authConstants } from "../../_constants"; 
 import i18n from "../../i18n";
 
-const required = (value) => {
-  if (!value) {
-    return (
-      <div className="alert alert-danger" role="alert">
-        {i18n.t('login.requiredField')}
-      </div>
-    );
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+
+const schema = yup.object({
+  userName: yup.string().required(),
+  password: yup.string().required(),
+}).required();
+
+const useStyles = makeStyles((theme) => ({
+  form : {
+    "width": "100%",
+    "display": "flex",
+    "margin-left": "auto",
+    "margin-right": "auto",
+    "justify-content": "center",
+
+  },
+  input: {
+    "display":" block",
+    "box-sizing": "border-box",
+    "width":" full",
+    "border":"4px",
+    "border":" 1px solid black",
+    "padding":" 10px 15px",
+    "margin-bottom": "10px",
+    "font-size": "14px",
+  },
+  label: {
+    "line-height":" 2",
+    "text-align":" left",
+    "display": "block",
+    "margin-bottom":" 13px",
+    "margin-top":" 20px",
+    "font-size":" 14px",
+    "font-weight":" 200",
+  },
+  button: {
+    "display":" block",
+    "appearance":" none",
+    "margin-top": "40px",
+    "border":" 1px solid #333",
+    "margin-bottom": "20px",
+    "text-transform": "uppercase",
+    "padding":" 10px 20px",
+    "border-radius": "4px",
+    "background": "blue",
+    "color": "white",
+  },
+  error: {
+    color: "red",
+  },
+  header: {
+    "text-align": "center"
   }
-};
+}));
 
-const Login = () => {
+function Login() {
 
-  const [userName, setUserName] =  useState("");
-  const [password, setPassword] =  useState("");
+  const { register, handleSubmit, formState:{ errors } } = useForm({
+    resolver: yupResolver(schema)
+  });
+
   const [loading, setLoading] =  useState(false);
   const history = useHistory();
   const dispatch = useDispatch();
+  const classes = useStyles();
 
-  const form = useRef();
-  const checkBtn = useRef();
-
-  const onChangeUserName = (e) => {setUserName(e.target.value)};
-
-  const onChangePassword = (e) => {setPassword(e.target.value)}
-
-  const handleLogin = (e) => {
-    e.preventDefault();
-    
+  const handleLogin = (data) => {
+    const {userName, password} = data
     setLoading(true);
 
-    form.current.validateAll();
-
-    if (checkBtn.current.context._errors.length === 0) {
-      dispatch(login(userName, password))
-        .then(() => {
-          history.push("/profile");
-        })
-        .catch(() => setLoading(false));
-    } else {
-      setLoading(false)
-    }
+    dispatch(login(userName, password))
+      .then(() => {
+        history.push("/profile");
+      })
+      .catch(() => setLoading(false));
   }
 
     const {isLoggedIn} = useSelector((state) => (state.auth));
@@ -69,47 +103,22 @@ const Login = () => {
     
     return (
       <div className="col-md-12">
-        <div className="card card-container">
+          <h1 className={classes.header}>Login</h1>
 
-          <Form
-            onSubmit={handleLogin}
-            ref={form}
-          >
-            <div className="form-group">
-              <label htmlFor="userName">{i18n.t('auth.userName')}</label>
-              <Input
-                type="text"
-                className="form-control"
-                name="userName"
-                value={userName}
-                onChange={onChangeUserName}
-                validations={[required]}
-              />
+          <form className={classes.form} onSubmit={handleSubmit((data) => handleLogin(data))}>
+            <div>
+              <label className={classes.label}>{i18n.t('auth.userName')}</label>
+              <input className={classes.input} {...register("userName")}/>
+              {errors.userName && <p className={classes.error}>{errors.userName.message}</p>}
             </div>
-
-            <div className="form-group">
-              <label htmlFor="password">{i18n.t('auth.password')}</label>
-              <Input
-                type="password"
-                className="form-control"
-                name="password"
-                value={password}
-                onChange={onChangePassword}
-                validations={[required]}
-              />
+            
+            <div>
+              <label className={classes.label}>{i18n.t('auth.password')}</label>
+              <input className={classes.input} {...register("password")}/>
+              {errors.password && <p className={classes.error}>{errors.password.message}</p>}
             </div>
-
-            <div className="form-group">
-              <button
-                className="btn btn-primary btn-block"
-                disabled={loading}
-              >
-                {loading && (
-                  <span className="spinner-border spinner-border-sm"></span>
-                )}
-                <span>{i18n.t('auth.signIn')}</span>
-              </button>
-            </div>
+            
+            <input className={classes.button} type="submit" />
 
             {message && (
               <div className="form-group">
@@ -119,9 +128,7 @@ const Login = () => {
               </div>
             )}
             
-            <CheckButton style={{ display: "none" }} ref={checkBtn} />
-          </Form>
-        </div>
+          </form>
       </div>
     );
   

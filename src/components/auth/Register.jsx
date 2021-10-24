@@ -107,20 +107,20 @@ function Register() {
                 <div>
                   <label className={classes.label} > {i18n.t('auth.userName')}</label>
                   <input className={classes.input}  {...register("userName")}/>
+                  {errors.userName && <p className={classes.error}>{errors.userName.message}</p>}
                 </div>
-                {errors.userName && <p className={classes.error}>{errors.userName.message}</p>}
 
                 <div>
                   <label className={classes.label} > Email</label>
                   <input className={classes.input}  {...register("email")}/>
+                  {errors.email && <p className={classes.error}>{errors.email.message}</p>}
                 </div>
-                {errors.email && <p className={classes.error}>{errors.email.message}</p>}
 
                 <div>
                   <label className={classes.label} >{i18n.t('auth.password')}</label>
                   <input className={classes.input}  {...register("password")}/>
+                  {errors.password && <p className={classes.error}>{errors.password.message}</p>}
                 </div>
-                {errors.password && <p className={classes.error}>{errors.password.message}</p>}
 
                 <input className={classes.button} type="submit" />
               </div>
@@ -131,6 +131,7 @@ function Register() {
                   {message}
                 </div>
             )}
+            
           </form>
       </div>
     );
