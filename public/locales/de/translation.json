@@ -194,7 +194,8 @@
 	},
 	"profile": {
 		"profile" : "Profil",
-		"sendMessage": "Ich will mir selbst SMS mit Wetterprognose senden lassen"
+		"sendMessage": "Ich will mir selbst SMS mit Wetterprognose senden lassen",
+        "telephone": "Telefonnummer"
 	},
     "login": {
         "requiredField": "Dieses Feld ist erfordelich"

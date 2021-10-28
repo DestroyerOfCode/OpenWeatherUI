@@ -1,49 +1,39 @@
 import React from 'react';
 import i18n from 'i18next';
-import Button from '@material-ui/core/Button';
 
 function Dashboard(props) {
-    const {isOpened, classes, logout, handlePath, currentUser} = props;
-
+    const {isOpened, logout, handlePath, currentUser} = props;
     return (
-        <div className="d-flex flex-column">
-            { isOpened && 
-                <Button 
-                    className={classes.authButton}
-                    variant="outlined"
-                    size="1g"
+        <>
+        { isOpened && 
+                <button 
+                    className="authButton"
                     onClick={() => handlePath("/")}>
                     {i18n.t('auth.home')}
-                </Button> 
+                </button> 
             }    
             { isOpened && currentUser == null && 
-                <Button 
-                    className={classes.authButton}
-                    variant="outlined"
-                    size="1g"
+                <button 
+                    className="authButton"
                     onClick={() => handlePath("/register")}>
                     {i18n.t('auth.signUp')}
-                </Button>     
+                </button>     
             }
             { isOpened && 
-                <Button
-                    className={classes.authButton}
-                    variant="outlined"
-                    size="1g"
+                <button
+                    className="authButton"
                     onClick={() => handlePath("/profile")}>
                     {currentUser ? i18n.t('auth.profile') + ` ${currentUser.userName}` 
                     : i18n.t('auth.signIn')}
-                </Button>  
+                </button>  
             }   
-            { isOpened && currentUser && <Button 
-                    className={classes.authButton}
-                    variant="outlined"
-                    size="1g"
+            { isOpened && currentUser && <button 
+                    className="authButton"
                     onClick={logout}>
                     {i18n.t('auth.logOut')}
-                </Button>
+                </button>
             }
-            </div>
+            </>
     );
 }
 

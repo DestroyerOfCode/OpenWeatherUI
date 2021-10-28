@@ -38,6 +38,18 @@ import { authConstants } from "../_constants/auth.constants";
           isLoggedIn: false,
           user: null,
         };
+      case authConstants.PATCH_SUCCESS:
+        return {
+          ...state,
+          isLoggedIn: true,
+          user: payload.user.data
+        };
+      case authConstants.PATCH_FAIL:
+        return {
+          ...state,
+          isLoggedIn: false,
+          user: null,
+        };
       default:
         return state;
     }

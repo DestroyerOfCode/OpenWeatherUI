@@ -190,7 +190,8 @@
 	},
 	"profile": {
 		"profile" : "Profile",
-		"sendMessage": "I want to have SMS with Weather Forecast sent"
+		"sendMessage": "I want to have SMS with Weather Forecast sent",
+		"telephone": "Phone Number"
 	},
     "login": {
         "requiredField": "This field is Required"

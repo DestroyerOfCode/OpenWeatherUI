@@ -24,7 +24,8 @@ function EnhancedTableBody(props) {
                         <StyledTableCell>
                             <Link
                                 to={{
-                                    pathname: '/forecast',
+                                    pathname: `/forecast`,
+                                    search:`?lat=${weather.coord.lat}&lon=${weather.coord.lon}`,
                                     state: {
                                         lat: weather.coord.lat,
                                         lon: weather.coord.lon,

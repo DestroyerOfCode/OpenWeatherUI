@@ -3,16 +3,14 @@ import TableRow from '@material-ui/core/TableRow';
 import TableSortLabel from '@material-ui/core/TableSortLabel';
 
 function EnhancedTableHeader(props) {
-    const { classes, order, orderBy, headCells, changeOrder } = props;
+    const { order, orderBy, headCells, changeOrder } = props;
     return (
         <TableRow>
             {headCells.map((headCell) => {
                 return (
                     <TableCell
-                        width={'1000'}
                         key={headCell.id}
                         sortDirection={orderBy === headCell.id ? order : false}
-                        padding="none"
                         onClick={() => changeOrder(headCell.id)}
                     >
                         <TableSortLabel
@@ -22,7 +20,7 @@ function EnhancedTableHeader(props) {
                         >
                             {headCell.label}
                             {orderBy === headCell.id ? (
-                                <span className={classes.visuallyHidden}></span>
+                                <span className="border-0 h-1 m-1 overflow-hidden p-0 absolute t-[20px] w-[800px]"></span>
                             ) : null}
                         </TableSortLabel>
                     </TableCell>

@@ -9,3 +9,5 @@ export function patchUser(userName, patched) {
         patched
     );
 }
+
+export default {patchUser}

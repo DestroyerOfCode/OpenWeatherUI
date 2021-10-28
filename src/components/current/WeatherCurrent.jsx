@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { nanoid } from 'nanoid';
 import { useDispatch, useSelector } from 'react-redux';
-import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableContainer from '@material-ui/core/TableContainer';
 import Paper from '@material-ui/core/Paper';
@@ -14,30 +13,7 @@ import EnhancedTableBody from './WeatherCurrentTableBody';
 import { weatherCurrentActions, filtersActions } from '../../actions';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
-import Button from '@material-ui/core/Button';
 import { TemperatureDropdownList } from '../../buildingBlocks/Temperature';
-const useStyles = makeStyles((theme) => ({
-    tableContainer: {
-        maxHeight: 500,
-        position: 'sticky',
-        minWidth: 650,
-    },
-    paper: {
-        width: '100%',
-        marginBottom: theme.spacing(2),
-    },
-    visuallyHidden: {
-        border: 0,
-        clip: 'rect(0 0 0 0)',
-        height: 1,
-        margin: -1,
-        overflow: 'hidden',
-        padding: 0,
-        position: 'absolute',
-        top: 20,
-        width: 1000,
-    },
-}));
 
 function WeatherCurrent(props) {
     const [isAscending, setIsAscending] = useState(true);
@@ -47,10 +23,10 @@ function WeatherCurrent(props) {
     const [collapseFilter, setCollapseFilter] = useState(false);
     const [collapseTable, setCollapseTable] = useState(false);
     const [loading, setLoading] = useState(true);
-
+    const [openTemperature, setOpenTemperature] = useState(false);
+    
     const filtersSelector = useSelector((state) => state.filters);
     const currentWeathers = useSelector((state) => state.weatherCurrent);
-    const classes = useStyles();
     const dispatch = useDispatch();
     const temperature = useSelector((state) => state.temperature);
 
@@ -193,32 +169,36 @@ function WeatherCurrent(props) {
     return loading ? (
         <CustomCircularLoader />
     ) : (
-        <div className="container">
-            <TemperatureDropdownList/>
-            <FormControlLabel
-              control={<Switch checked={collapseFilter}
-              onChange={collapseFilterAll} />}
-              label={i18n.t('current.filters.displayIcon')}
-            />
-            
-            <FiltersComponent
-                key={nanoid()}
-                handleChangePage={handleChangePage}
-                collapse={collapseFilter}
-            />
+        <div>
+            <div className="ml-1 mt-1 pl-2 flex flex-col">
+                <button className="w-1/6 p-2 bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow" 
+                    onClick={() => setOpenTemperature(open => !open)}>
+                    {i18n.t('common.temperatureDropdown.title')}
+                </button>
+                {openTemperature && <TemperatureDropdownList open={openTemperature} openTemperatures={() => setOpenTemperature(open => !open)}/>}
 
-            <div className="d-flex justify-content-start">
-                <div className="d-flex justify-content-start">
-                    <Button
-                        variant="contained"
+                <FormControlLabel
+                  control={<Switch checked={collapseFilter}
+                  onChange={collapseFilterAll} />}
+                  label={i18n.t('current.filters.displayIcon')}
+                />
+
+                <FiltersComponent
+                    key={nanoid()}
+                    handleChangePage={handleChangePage}
+                    collapse={collapseFilter}
+                />
+            </div>
+            <div className="flex flex-col">
+                <div className="ml-1 pl-2 flex">
+                    <button
+                        className="p-2 bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow" 
                         onClick={() => dispatch(filtersActions.clear())}
-                        size="small"
-                        color="primary"
                     >
                         {i18n.t('common.clearFilters')}
-                    </Button>
+                    </button>
                 </div>
-                <div className = "d-flex ml-auto p-2 col-example">
+                <div className="ml-1 pl-2 flex flex-col">
                     <FormControlLabel
                         control={<Switch checked={collapseTable}
                         onChange={collapseTableAll} />}
@@ -246,17 +226,15 @@ function WeatherCurrent(props) {
 
             <TableContainer
                 key={nanoid()}
-                component={Paper}
-                className={classes.tableContainer}
+                // component={Paper}
+                className="max-h-[500px] max-w-[5/6]"
             >
                 <Table
                     stickyHeader={true}
                     size="small"
-                    aria-label="a dense table"
                 >
                     <EnhancedTableHead
                         stickyHeader
-                        classes={classes}
                         order={isAscending ? 'asc' : 'desc'}
                         orderBy={sortBy}
                         changeOrder={changeOrder}

@@ -1,13 +1,36 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+@tailwind base;
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+@tailwind components;
+
+@tailwind utilities;
+
+@layer components {
+  .dashboard {
+    @apply bg-gray-600 h-screen flex flex-col float-left 
+    left-0 shadow-sm
+  }
+
+  .languageButton {
+    @apply h-8 text-white font-bold py-2 px-4 rounded-full
+  }
+
+  .authButton {
+    @apply m-2 text-white bg-white hover:bg-gray-100 
+    text-gray-800 font-semibold py-2 px-4 border 
+    border-gray-400 rounded shadow appearance-none
+  }
+
+  .authTextField {
+    @apply block box-border mb-3 border-4 border-solid pb-2 
+    pl-2 border-black font-extralight
+  }
+
+  .authLabel {
+    @apply text-left block mb-3 mt-[5]
+    font-extralight text-base
+  }
+
+  .authForm {
+    @apply w-[100%] h-screen flex flex-col items-center justify-center
+  }
 }

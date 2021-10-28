@@ -1,6 +1,7 @@
 import { authConstants } from "../_constants";  
 import AuthService from "../adapters/AuthService";
-  
+import UserService from "../adapters/UserService";
+
 export const registerUser = (userName, email, password) => (dispatch) => {
     return AuthService.register(userName, email, password).then(
       (response) => {
@@ -57,6 +58,26 @@ export const registerUser = (userName, email, password) => (dispatch) => {
     );
   };
   
+  export const patchUser = (userName, patched) => (dispatch) => {
+    return UserService.patchUser(userName, patched)
+      .then(
+        (response) => {
+          dispatch({
+            type: authConstants.PATCH_SUCCESS,
+            payload: { user : response}
+          });
+
+          return Promise.resolve();
+        },
+        (error) => {
+          dispatch({
+            type: authConstants.PATCH_FAIL
+          });
+
+          return Promise.reject();
+        }
+      )
+  }
   export const logout = () => (dispatch) => {
     AuthService.logout();
   

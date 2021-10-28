@@ -190,7 +190,8 @@
 	},
 	"profile": {
 		"profile" : "Profil",
-		"sendMessage": "Chcem si nechať zasielať SMS správy s počasím"
+		"sendMessage": "Chcem si nechať zasielať SMS správy s počasím",
+		"telephone": "Telefónne číslo"
 	},
     "login": {
         "requiredField": "Toto pole je požadované"

@@ -5,7 +5,6 @@ import { withTranslation } from 'react-i18next';
 import { makeStyles } from '@material-ui/core/styles';
 
 import i18n from 'i18next';
-import Button from '@material-ui/core/Button';
 import { logout } from "../actions/auth.actions";
 import { useDispatch } from 'react-redux';
 import MenuIcon from "@material-ui/icons/Menu";
@@ -24,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     },
     footer: {
         "background": "#00022e",
-        "height": "50px",
+        "height": "40px",
         "color": "#fc86aa",
         "display":"flex",
         "align-items": "center",
@@ -32,7 +31,6 @@ const useStyles = makeStyles((theme) => ({
         "position": 'absolute',
         "width" : "100%",
         "left": 0,
-        "bottom": 0
 
     },
     drawer: {
@@ -86,86 +84,80 @@ function WeatherApp() {
     const classes = useStyles();
 
     return (
-        <div>
-            <div className={classes.header}>
-                <div className="icon" onClick={() => setIsOpened(!isOpened)}>
-                    {isOpened ? <ChevronLeftIcon /> : <MenuIcon />}
-                </div>
-                
-                <div className="d-flex ml-auto p-2 col-example">
-                <Button
-                    className={classes.languageButton}
-                    variant="outlined"
+    <div className="bg-gray-600 h-8">
+        <div className="flow-root">
+            <div className="float-left">
+                {isOpened ? <ChevronLeftIcon 
+                    onClick={() => setIsOpened(!isOpened)}
+                    htmlColor="white"
+                    className="hover:bg-blue-700 m-1" /> : 
+                <MenuIcon 
+                    onClick={() => setIsOpened(!isOpened)}
+                    className="hover:bg-blue-700 m-1" 
+                    htmlColor="white" />
+                }
+            </div>
+            <div className="float-right">
+                <button
+                    className={`h-8 text-white mr-1 ml-1
+                    font-bold py-2 px-4 rounded-full ${i18n.language === "en" ? "text-indigo-300" : "hover:bg-blue-700 bg-black"}`}
                     onClick={() => i18n.changeLanguage('en')}
-                    size="small"
-                    disabled={i18n.language === 'en'}
-                    color={i18n.language === 'en' ? 'yellow' : 'primary'}
-                    value="en"
                 >
                     EN
-                </Button>
-                <Button
-                    className={classes.languageButton}
-                    variant="outlined"
+                </button>
+                <button
+                    className={`h-8 text-white mr-1 ml-1
+                    font-bold py-2 px-4 rounded-full ${i18n.language === "sk" ? "text-indigo-300" : "hover:bg-blue-700 bg-black"}`}
                     onClick={() => i18n.changeLanguage('sk')}
-                    size="small"
-                    disabled={i18n.language === 'sk'}
-                    color={i18n.language === 'sk' ? 'default' : 'primary'}
-                    value="sk"
                 >
                     SK
-                </Button>
-                <Button
-                    className={classes.languageButton}
-                    variant="outlined"
+                </button>
+                <button
+                    className={`h-8 text-white 
+                    font-bold py-2 px-4 rounded-full ${i18n.language === "de" ? "text-indigo-300" : "hover:bg-blue-700 bg-black"}`}
                     onClick={() => i18n.changeLanguage('de')}
-                    size="small"
-                    disabled={i18n.language === 'de'}
-                    color={i18n.language === 'de' ? 'default' : 'primary'}
-                    value="de"
                 >
                     DE
-                </Button>
-            </div>
-            </div>
-            <div className="d-flex">
-                <aside className={isOpened ? classes.opened : classes.drawer}>
-                    <Dashboard isOpened={isOpened}
-                        currentUser={currentUser}
-                        classes={classes}
-                        logout={logOut}
-                        handlePath={handlePath}/>
-                </aside>
-                <main className="container">
-                    <Switch>
-                        <Route
-                            exact
-                            path="/"
-                            component={WeatherCurrentPage}
-                        />
-                        <Route
-                            path="/forecast"
-                            component={WeatherForecastPage}
-                        />
-                        <Route
-                            exact path="/register"
-                            component={RegisterPage}
-                        />
-                        <Route
-                            exact path = "/login"
-                            component = {LoginPage}
-                        />
-                        <Route 
-                            exact path = "/profile"
-                            component = {ProfilePage}
-                        />
-                    </Switch>
-                </main> 
-            </div>
-            <div className={classes.footer}>
-                footer
+                </button>
             </div>
         </div>
+        <div className="flex">
+            <aside className="dashboard">
+                <Dashboard isOpened={isOpened}
+                    currentUser={currentUser}
+                    logout={logOut}
+                    handlePath={handlePath}/>
+            </aside>
+            <main className="w-[100%] relative">
+                <Switch>
+                    <Route
+                        exact
+                        path="/"
+                        component={WeatherCurrentPage}
+                    />
+                    <Route
+                        path='/forecast'
+                        component={WeatherForecastPage}
+                    />
+                    <Route
+                        exact path="/register"
+                        component={RegisterPage}
+                    />
+                    <Route
+                        exact path = "/login"
+                        component = {LoginPage}
+                    />
+                    <Route 
+                        exact path = "/profile"
+                        component = {ProfilePage}
+                    />
+                </Switch>
+            </main> 
+        </div>
+        <div className={classes.footer}>
+            footer
+        </div>
+    </div>
     );
 }
 

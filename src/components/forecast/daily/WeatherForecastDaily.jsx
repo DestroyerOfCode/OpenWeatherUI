@@ -1,55 +1,32 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { getDailyForecastByCityName } from '../../../adapters/WeatherForecastService';
 import i18n from 'i18next';
 import '../../../i18n';
-import { Link } from 'react-router-dom';
 import Table from '@material-ui/core/Table';
 import TableContainer from '@material-ui/core/TableContainer';
 import Paper from '@material-ui/core/Paper';
-import { makeStyles } from '@material-ui/core/styles';
 import { nanoid } from 'nanoid';
-import Button from '@material-ui/core/Button';
-import TemperatureCtx from '../../../buildingBlocks/Temperature';
 import CustomCircularLoader from '../../../buildingBlocks/CustomCircularLoader';
 import EnhancedTableHeader from '../../common/EnhancedTableHeader';
 import WeatherForecastTableBody from './WeatherForecastTableBody';
 import { TemperatureDropdownList } from '../../../buildingBlocks/Temperature';
 import { useSelector } from 'react-redux';
-
-const useStyles = makeStyles((theme) => ({
-    table: {
-        minWidth: 650,
-    },
-    paper: {
-        width: '100%',
-        marginBottom: theme.spacing(2),
-    },
-    visuallyHidden: {
-        border: 0,
-        clip: 'rect(0 0 0 0)',
-        height: 1,
-        margin: -1,
-        overflow: 'hidden',
-        padding: 0,
-        position: 'absolute',
-        top: 20,
-        width: 1,
-    },
-}));
+import {useLocation} from "react-router-dom";
+import queryString from 'query-string';
 
 function WeatherForecastComponent(props) {
     const [dailyWeatherForecast, setDailyWeatherForecast] = useState({});
     const [isAscending, setIsAscending] = useState(true);
     const [sortBy, setSortBy] = useState('sunrise');
     const [loading, setLoading] = useState(true);
-    const {temperature} = useSelector((state) => state.temperature);
-
-    const classes = useStyles();
+    const temperature = useSelector((state) => state.temperature);
+    const [openTemperature, setOpenTemperature] = useState(false);
+    const location = useLocation();
 
     useEffect(() => {
         getDailyForecastByCityName(
-            props.history.location.state.lat,
-            props.history.location.state.lon,
+            queryString.parse(location.search).lat,
+            queryString.parse(location.search).lon,
             'Current,Hourly,Minutely'
         ).then((response) => {
             setDailyWeatherForecast(response.data);
@@ -65,22 +42,19 @@ function WeatherForecastComponent(props) {
     return loading ? (
         <CustomCircularLoader />
     ) : (
-        <>
-        <TemperatureDropdownList/>
-            <Link to={{ pathname: '/' }}>
-                <Button variant="contained" color="primary">
-                    {i18n.t('forecast.currentWeather')}
-                </Button>
-            </Link>
+        <div className="ml-1 mt-1 pl-2">
+            <button className="w-1/6 p-2 bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow" 
+                onClick={() => setOpenTemperature(open => !open)}>
+                {i18n.t('common.temperatureDropdown.title')}
+            </button>
+            {openTemperature && <TemperatureDropdownList open={openTemperature} openTemperatures={() => setOpenTemperature(open => !open)}/>}
 
             <TableContainer key={nanoid()} component={Paper}>
                 <Table
-                    className={classes.table}
+                    className="max-h-[500px] max-w-[400px]"
                     size="small"
-                    aria-label="a dense table"
                 >
                     <EnhancedTableHeader
-                        classes={classes}
                         order={isAscending ? 'asc' : 'desc'}
                         orderBy={sortBy}
                         headCells={headCells.call()}
@@ -94,7 +68,7 @@ function WeatherForecastComponent(props) {
                     />
                 </Table>
             </TableContainer>
-        </>
+        </div>
     );
 }
 
