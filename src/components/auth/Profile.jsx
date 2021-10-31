@@ -10,15 +10,18 @@ const Profile = () => {
     const dispatch = useDispatch();
 
     const [sendMessage, setSendMessage] = useState(false);
-
+    const [cityName, setCityName] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
 
     useEffect(() => {
-        UserService.getUser(currentUser.userName)
-        .then((response) => {
-            setPhoneNumber(response.data.phoneNumber);
-            setSendMessage(response.data.sendMessage);
-        });
+        if (currentUser) {
+            UserService.getUser(currentUser.userName)
+            .then((response) => {
+                setPhoneNumber(response.data.phoneNumber);
+                setSendMessage(response.data.sendMessage);
+                setCityName(response.data.cityName);
+            });
+        }
     });
 
     if (!currentUser) {
@@ -45,6 +48,16 @@ const Profile = () => {
         });
     };
 
+    const handleCityName = (e) => {
+        dispatch(
+            patchUser(currentUser.userName, {
+                "cityName": e.target.value
+            }))
+        .then((res_ => {
+            setCityName(e.target.value)
+        }))
+    }
+
     return (
         <main className="">
             <div className=" h-8 bg-gray-500 justify-center text-center">
@@ -69,6 +82,15 @@ const Profile = () => {
                     type="textField"
                     onChange={handlePhone}
                     defaultValue={phoneNumber}
+                    className="ml-4 border-black font-extralight box-border border-4 border-solid"
+                />
+            </div>
+            <div className="ml-3 mt-4">
+                <label className="mp-4">{i18n.t('profile.city')}</label>
+                <input
+                    type="textField"
+                    onChange={handleCityName}
+                    defaultValue={cityName}
                     className="ml-4 border-black font-extralight box-border border-4 border-solid"
                 />
             </div>
