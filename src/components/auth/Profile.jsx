@@ -1,18 +1,25 @@
-    import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { patchUser } from '../../actions';
+import UserService from '../../adapters/UserService';
 import i18n from '../../i18n';
 
 const Profile = () => {
     let { user: currentUser } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
 
-    const [sendMessage, setSendMessage] = useState(currentUser !== null ? currentUser.sendMessage
-    : false);
+    const [sendMessage, setSendMessage] = useState(false);
 
-    const [phoneNumber, setPhoneNumber] = useState(currentUser !== null ? currentUser.phoneNumber 
-        : "");
+    const [phoneNumber, setPhoneNumber] = useState("");
+
+    useEffect(() => {
+        UserService.getUser(currentUser.userName)
+        .then((response) => {
+            setPhoneNumber(response.data.phoneNumber);
+            setSendMessage(response.data.sendMessage);
+        });
+    });
 
     if (!currentUser) {
         return <Redirect to="/login" />;

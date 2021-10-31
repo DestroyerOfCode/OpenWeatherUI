@@ -8,4 +8,5 @@ export const apiConstants = {
     MESSAGER_LOGIN_URL: `${MESSAGER_API_URL}/user/auth/login`,
     MESSAGER_REGISTER_URL: `${MESSAGER_API_URL}/user/auth/create`,
     MESSAGER_PATCH_USER_URL: `${MESSAGER_API_URL}/user`,
+    MESSAGER_GET_USER_URL: `${MESSAGER_API_URL}/user`,
 };

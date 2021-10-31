@@ -42,7 +42,7 @@ import { authConstants } from "../_constants/auth.constants";
         return {
           ...state,
           isLoggedIn: true,
-          user: payload.user.data
+          user: payload.user
         };
       case authConstants.PATCH_FAIL:
         return {
@@ -50,6 +50,21 @@ import { authConstants } from "../_constants/auth.constants";
           isLoggedIn: false,
           user: null,
         };
+
+      case authConstants.GET_SUCCESS:
+        return {
+          ...state,
+          isLoggedIn: true,
+          user: payload.user
+      };
+
+      case authConstants.GET_FAIL:
+        return {
+          ...state,
+          isLoggedIn: false,
+          user: null
+      };
+
       default:
         return state;
     }

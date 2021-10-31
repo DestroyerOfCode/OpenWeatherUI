@@ -64,7 +64,7 @@ export const registerUser = (userName, email, password) => (dispatch) => {
         (response) => {
           dispatch({
             type: authConstants.PATCH_SUCCESS,
-            payload: { user : response}
+            payload: { user : response.data}
           });
 
           return Promise.resolve();
@@ -78,10 +78,32 @@ export const registerUser = (userName, email, password) => (dispatch) => {
         }
       )
   }
+
+  export const getUser = (userName) => (dispatch) => {
+    return UserService.getUser(userName)
+      .then(
+        (response) => {
+          dispatch({
+            type: authConstants.GET_SUCCESS,
+            payload: {user : response.data}
+          });
+
+          return Promise.resolve();
+        },
+        (error) => {
+          dispatch({
+            type: authConstants.GET_FAIL
+          });
+
+          return Promise.reject();
+        }
+      )
+  }
+  
   export const logout = () => (dispatch) => {
     AuthService.logout();
   
     dispatch({
       type: authConstants.LOGOUT,
     });
-  };
+  }

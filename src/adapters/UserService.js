@@ -10,4 +10,10 @@ export function patchUser(userName, patched) {
     );
 }
 
-export default {patchUser}
+export function getUser(userName) {
+    const request = axios.create({ "headers" : authHeader()});
+    return request.get(
+        apiConstants.MESSAGER_GET_USER_URL + `/${userName}`
+    );
+}
+export default {patchUser, getUser}

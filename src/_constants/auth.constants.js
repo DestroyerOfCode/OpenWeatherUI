@@ -7,6 +7,9 @@ export const authConstants = {
 
     PATCH_SUCCESS : "PATCH_SUCCESS",
     PATCH_FAIL : "PATCH_FAIL",
+    GET_SUCCESS : "GET_SUCCESS",
+    GET_FAIL : "GET_FAIL",
+    
     SET_MESSAGE : "SET_MESSAGE",
     CLEAR_MESSAGE : "CLEAR_MESSAGE"
 }
