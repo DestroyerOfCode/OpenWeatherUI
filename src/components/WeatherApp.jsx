@@ -33,10 +33,6 @@ const useStyles = makeStyles((theme) => ({
         "left": 0,
 
     },
-    drawer: {
-        background: "#d8dcd6",
-        width: "240px"
-    },
     icon: {
         padding: "10px"
     },

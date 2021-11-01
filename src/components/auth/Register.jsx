@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { authConstants } from "../../_constants";
 import i18n from 'i18next';
 
@@ -25,8 +25,6 @@ function Register() {
   const [successful, setSuccessful] = useState(false);
     
   const dispatch = useDispatch();
-
-  const {message} = useSelector(state => state.messages);
 
   useEffect(() => {
     dispatch({

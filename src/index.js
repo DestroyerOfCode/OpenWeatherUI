@@ -5,12 +5,10 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { store } from './storage/configureStore';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
 import { HashRouter } from 'react-router-dom';
 import { Suspense } from 'react';
 import CustomCircularLoader from './buildingBlocks/CustomCircularLoader';
 import './i18n';
-// const store = createStore(store);
 
 ReactDOM.render(
     <Provider store={store}>

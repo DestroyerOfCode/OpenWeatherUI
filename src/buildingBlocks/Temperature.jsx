@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import { temperatureActions } from '../actions/temperature.actions';
 import { useDispatch } from 'react-redux';
 

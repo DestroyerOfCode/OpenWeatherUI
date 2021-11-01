@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { apiConstants } from '../_constants';
-import authHeader from './AuthHeader';
 
 const login = (userName, password) => {
     return axios
@@ -19,7 +18,6 @@ const logout = () => {
 };
 
 const register = (userName, email, userPassword) => {
-    const headers = authHeader();
 
     return axios.post(
         apiConstants.MESSAGER_REGISTER_URL,
