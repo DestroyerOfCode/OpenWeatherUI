@@ -28,3 +28,4 @@ src/.prettierrc
 dk\ update
 .idea
 yarn.lock
+.env
