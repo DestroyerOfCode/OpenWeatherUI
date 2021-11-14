@@ -1,4 +1,4 @@
-import React, { useEffect, } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Multiselect } from 'multiselect-react-dropdown';
 import i18n from 'i18next';
@@ -7,9 +7,7 @@ import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import {
-    filtersActions,
-    countriesActions,
-    descriptionsActions,
+    filtersActions
 } from '../../actions';
 import { nanoid } from 'nanoid';
 import { convertTemperature } from '../../businessLogic/WeatherBusinessLogic';
@@ -35,11 +33,6 @@ function FiltersComponent(props) {
     const temperature = useSelector(state => state.temperature);
     const dispatch = useDispatch();
     const classes = useStyles();
-
-    useEffect(() => {
-        dispatch(descriptionsActions.getDescriptions());
-        dispatch(countriesActions.getCountries());
-    }, []);
 
     const onBlurEvent = (event, filterName, filterOperator) => {
         props.handleChangePage(null, 0);
