@@ -6,14 +6,13 @@ export const countriesActions = {
 };
 
 function getCountries() {
-    return (dispatch) => {
+    return (dispatch) =>
         retrieveAllCountries().then((response) =>
             dispatch({
                 type: 'GET_COUNTRIES',
                 countries: internationalizeCountries(response),
             })
         );
-    };
 }
 
 const internationalizeCountries = (countries) => {

@@ -14,7 +14,7 @@ const rootReducer = combineReducers({
     descriptions,
     messages,
     auth,
-    temperature
+    temperature,
 });
 
 export default rootReducer;

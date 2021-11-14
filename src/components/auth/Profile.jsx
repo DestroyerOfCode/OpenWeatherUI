@@ -1,4 +1,4 @@
-    import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { patchUser } from '../../actions';
@@ -10,13 +10,12 @@ const Profile = () => {
     const dispatch = useDispatch();
 
     const [sendMessage, setSendMessage] = useState(false);
-    const [cityName, setCityName] = useState("");
-    const [phoneNumber, setPhoneNumber] = useState("");
+    const [cityName, setCityName] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
 
     useEffect(() => {
         if (currentUser) {
-            UserService.getUser(currentUser.userName)
-            .then((response) => {
+            UserService.getUser(currentUser.userName).then((response) => {
                 setPhoneNumber(response.data.phoneNumber);
                 setSendMessage(response.data.sendMessage);
                 setCityName(response.data.cityName);
@@ -31,9 +30,9 @@ const Profile = () => {
     const handleSendMessageCheckbox = () => {
         dispatch(
             patchUser(currentUser.userName, {
-                sendMessage: !sendMessage
-        }))
-        .then(res => {
+                sendMessage: !sendMessage,
+            })
+        ).then((res) => {
             setSendMessage(!sendMessage);
         });
     };
@@ -41,9 +40,9 @@ const Profile = () => {
     const handlePhone = (e) => {
         dispatch(
             patchUser(currentUser.userName, {
-                "phoneNumber": e.target.value
-        }))
-        .then((res) => {
+                phoneNumber: e.target.value,
+            })
+        ).then((res) => {
             setPhoneNumber(e.target.value);
         });
     };
@@ -51,19 +50,20 @@ const Profile = () => {
     const handleCityName = (e) => {
         dispatch(
             patchUser(currentUser.userName, {
-                "cityName": e.target.value
-            }))
-        .then((res_ => {
-            setCityName(e.target.value)
-        }))
-    }
+                cityName: e.target.value,
+            })
+        ).then((res_) => {
+            setCityName(e.target.value);
+        });
+    };
 
     return (
         <main className="">
             <div className=" h-8 bg-gray-500 justify-center text-center">
                 <header>
                     <h3>
-                        <strong>{currentUser.userName}</strong> {i18n.t('profile.profile')}
+                        <strong>{currentUser.userName}</strong>{' '}
+                        {i18n.t('profile.profile')}
                     </h3>
                 </header>
             </div>

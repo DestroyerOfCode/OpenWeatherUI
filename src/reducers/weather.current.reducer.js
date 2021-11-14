@@ -16,7 +16,7 @@ const initialState = {
     },
 };
 export function weatherCurrent(state = [initialState], action) {
-    const {type, currentWeathers} = action;
+    const { type, currentWeathers } = action;
     switch (type) {
         case weatherCurrentConstants.GET_CURRENT_WEATHERS:
             return currentWeathers;

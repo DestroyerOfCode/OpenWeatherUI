@@ -18,20 +18,16 @@ const logout = () => {
 };
 
 const register = (userName, email, userPassword) => {
-
-    return axios.post(
-        apiConstants.MESSAGER_REGISTER_URL,
-        {
-            userName,
-            email,
-            userPassword,
-            roles: [
-                {
-                    name: 'ROLE_USER',
-                },
-            ],
-        }
-    );
+    return axios.post(apiConstants.MESSAGER_REGISTER_URL, {
+        userName,
+        email,
+        userPassword,
+        roles: [
+            {
+                name: 'ROLE_USER',
+            },
+        ],
+    });
 };
 
 export default { login, logout, register };

@@ -5,6 +5,16 @@ export const descriptionsActions = {
     getDescriptions,
 };
 
+function getDescriptions() {
+    return (dispatch) =>
+        retrieveAllDescriptions().then((response) => {
+            dispatch({
+                type: 'GET_DESCRIPTIONS',
+                descriptions: internationalizeDescriptions(response),
+            });
+        });
+}
+
 const internationalizeDescriptions = (descriptions) => {
     return descriptions?.data?.map((description) => ({
         name: i18n.t('common.description.' + description.originalValue),
@@ -12,15 +22,3 @@ const internationalizeDescriptions = (descriptions) => {
         originalValue: description.originalValue,
     }));
 };
-
-function getDescriptions() {
-    return (dispatch) => {
-         retrieveAllDescriptions().then((response) => {
-            console.log(response);
-            dispatch({
-                type: 'GET_DESCRIPTIONS',
-                descriptions: internationalizeDescriptions(response),
-            });
-        });
-    };
-}

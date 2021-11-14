@@ -10,9 +10,10 @@ import CustomCircularLoader from '../../buildingBlocks/CustomCircularLoader';
 import EnhancedTableHead from '../common/EnhancedTableHeader';
 import EnhancedTableBody from './WeatherCurrentTableBody';
 import { weatherCurrentActions, filtersActions } from '../../actions';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import { TemperatureDropdownList } from '../../buildingBlocks/Temperature';
+import { descriptionsActions } from '../../actions';
+import { countriesActions } from '../../actions';
 
 function WeatherCurrent(props) {
     const [isAscending, setIsAscending] = useState(true);
@@ -28,6 +29,7 @@ function WeatherCurrent(props) {
     const currentWeathers = useSelector((state) => state.weatherCurrent);
     const dispatch = useDispatch();
     const temperature = useSelector((state) => state.temperature);
+
 
     useEffect(() => {
         refreshWeathers();
@@ -212,7 +214,6 @@ function WeatherCurrent(props) {
                     collapse={collapseFilter}
                     className="flex-1"
                 />
-                
             </div>
             <div className="flex flex-col">
                 <div className="ml-1 mt-1 pl-2 flex">

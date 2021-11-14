@@ -14,7 +14,7 @@ import { useSelector } from 'react-redux';
 
 function EnhancedTableBody(props) {
     const { currentWeathers, isCollapse } = props;
-    const temperature = useSelector(state => state.temperature);
+    const temperature = useSelector((state) => state.temperature);
 
     return currentWeathers.content?.length ? (
         <TableBody>
@@ -25,7 +25,7 @@ function EnhancedTableBody(props) {
                             <Link
                                 to={{
                                     pathname: `/forecast`,
-                                    search:`?lat=${weather.coord.lat}&lon=${weather.coord.lon}`,
+                                    search: `?lat=${weather.coord.lat}&lon=${weather.coord.lon}`,
                                     state: {
                                         lat: weather.coord.lat,
                                         lon: weather.coord.lon,
@@ -35,52 +35,57 @@ function EnhancedTableBody(props) {
                                 {weather.name}
                             </Link>
                         </StyledTableCell>
-                        { isCollapse && <StyledTableCell>
-                            {displayCoords(weather.coord.lat)}
-                        </StyledTableCell>}
-                        { isCollapse && <StyledTableCell>
-                            {displayCoords(weather.coord.lon)}
-                        </StyledTableCell>}
-                        { isCollapse && <StyledTableCell>
-                            {i18n.t(
-                                `common.countryName.${weather.sys.countryName}`
-                            )}
-                        </StyledTableCell>}
+                        {isCollapse && (
+                            <StyledTableCell>
+                                {displayCoords(weather.coord.lat)}
+                            </StyledTableCell>
+                        )}
+                        {isCollapse && (
+                            <StyledTableCell>
+                                {displayCoords(weather.coord.lon)}
+                            </StyledTableCell>
+                        )}
+                        {isCollapse && (
+                            <StyledTableCell>
+                                {i18n.t(
+                                    `common.countryName.${weather.sys.countryName}`
+                                )}
+                            </StyledTableCell>
+                        )}
                         <StyledTableCell>
                             {weather.weatherMain.humidity}
                         </StyledTableCell>
-                        {isCollapse && <StyledTableCell>
-                            {`${convertTemperature(
-                                temperature.units,
-                                weather.weatherMain.feels_like
-                                )}`
-                            }
-                        </StyledTableCell>
-                        }
+                        {isCollapse && (
+                            <StyledTableCell>
+                                {`${convertTemperature(
+                                    temperature.units,
+                                    weather.weatherMain.feels_like
+                                )}`}
+                            </StyledTableCell>
+                        )}
                         <StyledTableCell>
                             {`${convertTemperature(
                                 temperature.units,
                                 weather.weatherMain.temp
-                                )}`
-                            }
+                            )}`}
                         </StyledTableCell>
-                        
-                        {isCollapse && <StyledTableCell>
-                            {`${convertTemperature(
-                                temperature.units,
-                                weather.weatherMain.temp_max
-                                )}`
-                            }
-                        </StyledTableCell>
-                        }
-                        {isCollapse && <StyledTableCell>
-                            {`${convertTemperature(
-                                temperature.units,
-                                weather.weatherMain.temp_min
-                                )}`
-                            }
-                        </StyledTableCell>
-                        }
+
+                        {isCollapse && (
+                            <StyledTableCell>
+                                {`${convertTemperature(
+                                    temperature.units,
+                                    weather.weatherMain.temp_max
+                                )}`}
+                            </StyledTableCell>
+                        )}
+                        {isCollapse && (
+                            <StyledTableCell>
+                                {`${convertTemperature(
+                                    temperature.units,
+                                    weather.weatherMain.temp_min
+                                )}`}
+                            </StyledTableCell>
+                        )}
                         <StyledTableCell>
                             {getWeatherDescription(weather)}
                         </StyledTableCell>

@@ -11,7 +11,7 @@ function getCurrentWeathers(
     currentPage,
     itemsPerPage
 ) {
-    return (dispatch) => {
+    return (dispatch) =>
         retrieveAllWeathers(
             sortBy,
             isAscending,
@@ -24,5 +24,4 @@ function getCurrentWeathers(
                 currentWeathers: response.data,
             })
         );
-    };
 }

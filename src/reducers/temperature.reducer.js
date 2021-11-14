@@ -1,18 +1,18 @@
-import { temperatureConstants } from "../_constants";
+import { temperatureConstants } from '../_constants';
 
 const initialState = {
     units: 'celsius',
     abbreviation: '°C',
-}
+};
 
 export function temperature(state = initialState, action) {
-    const {type, units, abbreviation} = action;
+    const { type, units, abbreviation } = action;
 
     switch (type) {
         case temperatureConstants.CHANGE_TEMPERATURE: {
-            return { 
+            return {
                 units: units,
-                abbreviation: abbreviation
+                abbreviation: abbreviation,
             };
         }
 

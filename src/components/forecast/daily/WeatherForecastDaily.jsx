@@ -11,7 +11,7 @@ import EnhancedTableHeader from '../../common/EnhancedTableHeader';
 import WeatherForecastTableBody from './WeatherForecastTableBody';
 import { TemperatureDropdownList } from '../../../buildingBlocks/Temperature';
 import { useSelector } from 'react-redux';
-import {useLocation} from "react-router-dom";
+import { useLocation } from 'react-router-dom';
 import queryString from 'query-string';
 
 function WeatherForecastComponent(props) {
@@ -43,17 +43,21 @@ function WeatherForecastComponent(props) {
         <CustomCircularLoader />
     ) : (
         <div className="ml-1 mt-1 pl-2">
-            <button className="w-1/6 p-2 bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow" 
-                onClick={() => setOpenTemperature(open => !open)}>
+            <button
+                className="w-1/6 p-2 bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
+                onClick={() => setOpenTemperature((open) => !open)}
+            >
                 {i18n.t('common.temperatureDropdown.title')}
             </button>
-            {openTemperature && <TemperatureDropdownList open={openTemperature} openTemperatures={() => setOpenTemperature(open => !open)}/>}
+            {openTemperature && (
+                <TemperatureDropdownList
+                    open={openTemperature}
+                    openTemperatures={() => setOpenTemperature((open) => !open)}
+                />
+            )}
 
             <TableContainer key={nanoid()} component={Paper}>
-                <Table
-                    className="max-h-[500px] max-w-[400px]"
-                    size="small"
-                >
+                <Table className="max-h-[500px] max-w-[400px]" size="small">
                     <EnhancedTableHeader
                         order={isAscending ? 'asc' : 'desc'}
                         orderBy={sortBy}

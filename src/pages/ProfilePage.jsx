@@ -1,4 +1,4 @@
-import Profile from "../components/auth/Profile";
-const ProfilePage = () => <Profile/>
+import Profile from '../components/auth/Profile';
+const ProfilePage = () => <Profile />;
 
 export default ProfilePage;
