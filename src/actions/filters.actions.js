@@ -1,4 +1,4 @@
-import { filtersConstants } from "../_constants";
+import { filtersConstants } from '../_constants';
 
 export const filtersActions = {
     update,
@@ -7,27 +7,34 @@ export const filtersActions = {
 
 function update(filterName, filterOperator, value, filters) {
     return (dispatch) => {
-        if ((filters[filterName] === undefined && ((value === "" || isNaN(value)) && !Array.isArray(value))) ||
-            (filters[filterName] !== undefined && filters[filterName][filterOperator] === undefined &&
-            ((value === "" || isNaN(value)) && !Array.isArray(value)))) {
-                return;
-            }
-        if ( filters[filterName] !== undefined && (
-            isNumericEmpty(filterOperator, value) ||
-            "" === value ||
-            isArrayEmpty(value)
-        )) {
+        if (
+            (filters[filterName] === undefined &&
+                (value === '' || (isNaN(value)) && value === '') &&
+                !Array.isArray(value)) ||
+            (filters[filterName] !== undefined &&
+                filters[filterName][filterOperator] === undefined &&
+                (value === '' || (isNaN(value)) && value === '') &&
+                !Array.isArray(value))
+        ) {
+            return;
+        }
+        if (
+            filters[filterName] !== undefined &&
+            (isNumericEmpty(filterOperator, value) ||
+                '' === value ||
+                isArrayEmpty(value))
+        ) {
             return dispatch({
                 type: filtersConstants.REMOVE_FILTER,
                 filters,
                 filterName,
                 filterOperator,
             });
-        } else if (filters[filterName] !== undefined && (
-            isNumericNotEmpty(filterOperator, value) &&
-            "" !== value ||
-            isArrayNotEmpty(value)
-        )) {
+        } else if (
+            filters[filterName] !== undefined &&
+            ((isNumericNotEmpty(filterOperator, value) && '' !== value) ||
+                isArrayNotEmpty(value))
+        ) {
             return dispatch({
                 type: filtersConstants.APPEND_FILTER_OPERATOR,
                 filters,
@@ -48,11 +55,16 @@ function update(filterName, filterOperator, value, filters) {
 }
 
 function isNumericEmpty(filterOperator, value) {
-    return (filterOperator === '$gte' || filterOperator === '$lte') && isNaN(value);
+    return (
+        (filterOperator === '$gte' || filterOperator === '$lte') && isNaN(value)
+    );
 }
 
 function isNumericNotEmpty(filterOperator, value) {
-    return(filterOperator === '$gte' || filterOperator === '$lte') && !isNaN(value);
+    return (
+        (filterOperator === '$gte' || filterOperator === '$lte') &&
+        !isNaN(value)
+    );
 }
 
 function isArrayEmpty(value) {
