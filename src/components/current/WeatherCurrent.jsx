@@ -30,7 +30,6 @@ function WeatherCurrent(props) {
     const dispatch = useDispatch();
     const temperature = useSelector((state) => state.temperature);
 
-
     useEffect(() => {
         refreshWeathers();
     }, [
@@ -182,9 +181,11 @@ function WeatherCurrent(props) {
         <CustomCircularLoader />
     ) : (
         <div>
-            <div className="ml-1 mt-1 pl-2 flex flex-col">
+            <div className="w-full ml-1 mt-1 pl-2 flex-col">
                 <button
-                    className="w-1/6 p-2 bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
+                    className="text-center inline-flex p-2 bg-white 
+                    hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border 
+                    border-gray-400 rounded shadow"
                     onClick={() => setOpenTemperature((open) => !open)}
                 >
                     {i18n.t('common.temperatureDropdown.title')}

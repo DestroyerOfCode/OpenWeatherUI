@@ -6,11 +6,11 @@ export const TemperatureDropdownList = (props) => {
     const dispatch = useDispatch();
     const { openTemperatures, open } = props;
     return (
-        <div className="shadow h-auto">
+        <div className="h-auto">
             <ul className="text-left">
                 {open && (
                     <li
-                        className="p-3 w-1/6 border text-gray-700 hover:text-white hover:bg-indigo-700"
+                        className="w-[100px] p-3 border text-gray-700 hover:text-white hover:bg-indigo-700"
                         onClick={() => {
                             dispatch(
                                 temperatureActions.changeTemperatue(
@@ -26,7 +26,7 @@ export const TemperatureDropdownList = (props) => {
                 )}
                 {open && (
                     <li
-                        className="p-3 w-1/6 border text-gray-700 hover:text-white hover:bg-indigo-700"
+                        className="w-[100px] p-3 border text-gray-700 hover:text-white hover:bg-indigo-700"
                         onClick={() => {
                             dispatch(
                                 temperatureActions.changeTemperatue(
@@ -42,7 +42,7 @@ export const TemperatureDropdownList = (props) => {
                 )}
                 {open && (
                     <li
-                        className="p-3 w-1/6 border text-gray-700 hover:text-white hover:bg-indigo-700"
+                        className="w-[100px] p-3 border text-gray-700 hover:text-white hover:bg-indigo-700"
                         onClick={() => {
                             dispatch(
                                 temperatureActions.changeTemperatue(
