@@ -21,7 +21,7 @@ const Profile = () => {
                 setCityName(response.data.cityName);
             });
         }
-    });
+    }, [currentUser]);
 
     if (!currentUser) {
         return <Redirect to="/login" />;
